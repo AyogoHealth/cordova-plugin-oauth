@@ -24,11 +24,13 @@ limitations under the License.
 
   <engines>
     <engine name="cordova-ios" version=">= 5.0.0" />
+    <engine name="cordova-android" version=">= 8.0.0" />
   </engines>
 
   <js-module src="www/oauth.js" name="OAuth">
     <clobbers target="window.open" />
   </js-module>
+
 
   <platform name="ios">
     <config-file parent="/*" target="config.xml">
@@ -52,5 +54,31 @@ limitations under the License.
     </config-file>
 
     <source-file src="src/ios/OAuthPlugin.swift" />
+  </platform>
+
+
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="OAuth">
+        <param name="android-package" value="com.ayogo.cordova.oauth.OAuthPlugin" />
+      </feature>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application/activity[@android:label='@string/activity_name']">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data android:scheme="$PACKAGE_NAME" android:host="oauth_callback" />
+      </intent-filter>
+    </config-file>
+
+    <source-file src="src/android/OAuthPlugin.java" target-dir="src/com/ayogo/cordova/oauth" />
+
+    <preference name="ANDROID_SUPPORT_CUSTOM_TABS_VERSION" default="28.+" />
+
+    <framework src="com.android.support:customtabs:$ANDROID_SUPPORT_CUSTOM_TABS_VERSION" />
   </platform>
 </plugin>
