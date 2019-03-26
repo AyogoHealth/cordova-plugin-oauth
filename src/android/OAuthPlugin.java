@@ -84,7 +84,7 @@ public class OAuthPlugin extends CordovaPlugin {
 
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
                 return true;
-            } catch (JSONException ex) {
+            } catch (JSONException e) {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
                 return false;
             }
@@ -110,11 +110,22 @@ public class OAuthPlugin extends CordovaPlugin {
 
         final Uri uri = intent.getData();
 
-        if (uri.getHost().equals("oauth_callback") && uri.getQueryParameter("access_token") != null) {
-            LOG.i(TAG, "OAuth called back with access token.");
+        if (uri.getHost().equals("oauth_callback")) {
+            LOG.i(TAG, "OAuth called back with parameters.");
 
-            final String token = uri.getQueryParameter("access_token");
-            this.webView.getEngine().evaluateJavascript("window.dispatchEvent(new MessageEvent('message', { data: 'access_token:" + token + "' }));", null);
+            try {
+                JSONObject jsobj = new JSONObject();
+
+                for (String queryKey : uri.getQueryParameterNames()) {
+                    jsobj.put(queryKey, uri.getQueryParameter(queryKey));
+                }
+
+                final String msg = jsobj.toString();
+                this.webView.getEngine().evaluateJavascript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::" + msg + "' }));", null);
+            } catch (JSONException e) {
+                LOG.e(TAG, "JSON Serialization failed");
+                e.printStackTrace();
+            }
         }
     }
 

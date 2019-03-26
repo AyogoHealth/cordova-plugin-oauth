@@ -163,13 +163,24 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate {
         self.authSystem?.cancel()
         self.authSystem = nil
 
-        guard let token = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.filter({$0.name == "access_token"}).first?.value else {
-            return
+        var jsobj : [String : String] = [:]
+        let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+
+        queryItems?.forEach {
+            jsobj[$0.name] = $0.value
         }
 
-        os_log("OAuth called back with access token. %{private}@", log: self.logger!, type: .info, token)
+        os_log("OAuth called back with parameters.", log: self.logger!, type: .info)
 
-        self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'access_token:\(token)' }));", completionHandler: nil)
+        do {
+            let data = try JSONSerialization.data(withJSONObject: jsobj)
+            let msg = String(data: data, encoding: .utf8)!
+
+            self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::\(msg)' }));", completionHandler: nil)
+        } catch {
+            let errStr = "JSON Serialization failed: \(error)"
+            os_log("%@", log: self.logger!, type: .error, errStr)
+        }
     }
 
 
