@@ -59,7 +59,7 @@ Usage
     By default, the plugin registers the app ID as a scheme to be used as the
     OAuth callback URL, and expects a host of `oauth_callback` (i.e., if your
     app's ID is `com.example.foo`, your OAuth redirect URL should be
-    `com.example.foo://oauth_callback`).
+    `com.example.foo:/oauth_callback`).
 
 2.  The plugin will open the OAuth login page in a new browser window.
 
@@ -71,7 +71,7 @@ Usage
 
     ```javascript
     // Called from a callback URL like
-    // com.example.foo://oauth_callback?code=b10a8db164e0754105b7a99be72e3fe5
+    // com.example.foo:/oauth_callback?code=b10a8db164e0754105b7a99be72e3fe5
     // it would be received in JavaScript like this:
 
     window.addEventListener('message', function(event) {
