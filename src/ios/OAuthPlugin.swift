@@ -29,6 +29,8 @@ import SafariServices
 class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
     private var aswas : ASWebAuthenticationSession
 
+    var delegate : AnyObject?
+
     required init(_ endpoint : URL, callbackScheme : String) {
         self.aswas = ASWebAuthenticationSession(url: endpoint, callbackURLScheme: callbackScheme, completionHandler: { (callBack:URL?, error:Error?) in
             if let incomingUrl = callBack {
@@ -38,6 +40,12 @@ class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
     }
 
     func start() {
+        if #available(iOS 13.0, *) {
+            if let provider = self.delegate as? ASWebAuthenticationPresentationContextProviding {
+                self.aswas.presentationContextProvider = provider
+            }
+        }
+
         self.aswas.start()
     }
 
@@ -139,6 +147,12 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate {
 
         if #available(iOS 12.0, *) {
             self.authSystem = ASWebAuthenticationSessionOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
+
+            if #available(iOS 13.0, *) {
+                if let aswas = self.authSystem as? ASWebAuthenticationSessionOAuthSessionProvider {
+                    aswas.delegate = self
+                }
+            }
         } else if #available(iOS 11.0, *) {
             self.authSystem = SFAuthenticationSessionOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
         } else if #available(iOS 9.0, *) {
@@ -201,5 +215,13 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate {
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
        self.authSystem?.cancel()
        self.authSystem = nil
+    }
+}
+
+
+@available(iOS 13.0, *)
+extension OAuthPlugin : ASWebAuthenticationPresentationContextProviding {
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        return self.viewController.view.window ?? ASPresentationAnchor()
     }
 }
