@@ -40,11 +40,13 @@ class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
     }
 
     func start() {
-        if #available(iOS 13.0, *) {
-            if let provider = self.delegate as? ASWebAuthenticationPresentationContextProviding {
-                self.aswas.presentationContextProvider = provider
+        #if swift(>=5.1)
+            if #available(iOS 13.0, *) {
+                if let provider = self.delegate as? ASWebAuthenticationPresentationContextProviding {
+                    self.aswas.presentationContextProvider = provider
+                }
             }
-        }
+        #endif
 
         self.aswas.start()
     }
@@ -218,10 +220,11 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate {
     }
 }
 
-
-@available(iOS 13.0, *)
+#if swift(>=5.1)
 extension OAuthPlugin : ASWebAuthenticationPresentationContextProviding {
+    @available(iOS 13.0, *)
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return self.viewController.view.window ?? ASPresentationAnchor()
     }
 }
+#endif
