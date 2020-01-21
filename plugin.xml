@@ -28,7 +28,7 @@ limitations under the License.
   </engines>
 
   <js-module src="www/oauth.js" name="OAuth">
-    <clobbers target="window.open" />
+    <clobbers target="open" />
   </js-module>
 
 
@@ -39,7 +39,7 @@ limitations under the License.
         <param name="onload" value="true" />
       </feature>
 
-      <preference name="SwiftVersion" value="4.0" />
+      <preference name="SwiftVersion" value="5.0" />
     </config-file>
 
     <config-file parent="CFBundleURLTypes" target="*-Info.plist">
