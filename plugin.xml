@@ -28,7 +28,7 @@ limitations under the License.
   </engines>
 
   <js-module src="www/oauth.js" name="OAuth">
-    <clobbers target="window.open" />
+    <clobbers target="open" />
   </js-module>
 
 
