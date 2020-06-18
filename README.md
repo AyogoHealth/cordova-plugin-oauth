@@ -34,9 +34,12 @@ Installation
 ------------
 
 ```
-cordova plugin add cordova-plugin-oauth
+cordova plugin add cordova-plugin-oauth --variable URL_SCHEME=mycoolapp
 ```
 
+URL_SCHEME will be registered as the scheme to be used as the OAuth callback URL, 
+and expects a host of `oauth_callback` (i.e., if your app's ID is `mycoolapp`, 
+your OAuth redirect URL should be `mycoolapp://oauth_callback`).
 
 Supported Platforms
 -------------------
@@ -55,11 +58,6 @@ Usage
     var endpoint = 'https://accounts.google.com/o/oauth2/v2/auth?....';
     window.open(endpoint, 'oauth:google', '');
     ```
-
-    By default, the plugin registers the app ID as a scheme to be used as the
-    OAuth callback URL, and expects a host of `oauth_callback` (i.e., if your
-    app's ID is `com.example.foo`, your OAuth redirect URL should be
-    `com.example.foo://oauth_callback`).
 
 2.  The plugin will open the OAuth login page in a new browser window.
 
