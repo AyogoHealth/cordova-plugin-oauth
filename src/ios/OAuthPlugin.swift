@@ -122,7 +122,7 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
     var logger : OSLog?
 
     override func pluginInitialize() {
-        let urlScheme = self.commandDelegate.settings["urlscheme"] as! String
+        let urlScheme = self.commandDelegate.settings["OAuthScheme"] as! String
 
         self.callbackScheme = "\(urlScheme)://oauth_callback"
         self.logger = OSLog(subsystem: urlScheme, category: "Cordova")

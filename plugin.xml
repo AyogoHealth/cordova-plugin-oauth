@@ -34,7 +34,7 @@ limitations under the License.
   </js-module>
 
   <config-file target="config.xml" parent="/*">
-    <preference name="urlScheme" value="$URL_SCHEME"/>
+    <preference name="OAuthScheme" value="$URL_SCHEME"/>
   </config-file>
 
   <platform name="ios">
