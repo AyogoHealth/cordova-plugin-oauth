@@ -22,7 +22,7 @@ limitations under the License.
   <repo>https://github.com/AyogoHealth/cordova-plugin-oauth.git</repo>
   <issues>https://github.com/AyogoHealth/cordova-plugin-oauth/issues</issues>
 
-  <preference name="URL_SCHEME" />
+  <preference name="URL_SCHEME" default="$PACKAGE_NAME" />
 
   <engines>
     <engine name="cordova-ios" version=">= 5.0.0" />
