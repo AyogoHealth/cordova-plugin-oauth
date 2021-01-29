@@ -25,7 +25,7 @@ limitations under the License.
   <preference name="URL_SCHEME" default="$PACKAGE_NAME" />
 
   <engines>
-    <engine name="cordova-ios" version=">= 5.0.0" />
+    <engine name="cordova-ios" version=">= 6.1.0" />
     <engine name="cordova-android" version=">= 8.0.0" />
   </engines>
 
