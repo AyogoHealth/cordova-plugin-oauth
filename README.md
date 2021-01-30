@@ -1,5 +1,5 @@
 <!--
-  Copyright 2020 Ayogo Health Inc.
+  Copyright 2021 Ayogo Health Inc.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ then your OAuth redirect URL should be `mycoolapp://oauth_callback`.
 Supported Platforms
 -------------------
 
-* **iOS** (cordova-ios >= 5.0.0)
+* **iOS** (cordova-ios >= 6.1.0)
 * **Android** (cordova-android >= 8.0.0)
 
 
