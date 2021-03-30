@@ -20,7 +20,7 @@ var noop = function() { };
 
 
 module.exports = function(url, name, features) {
-  if (name.match(/^oauth:/)) {
+  if (name && name.match && name.match(/^oauth:/)) {
     cordova.exec(noop, noop, 'OAuth', 'startOAuth', [url]);
   } else {
     var originalWindowOpen = modulemapper.getOriginalSymbol(window, 'open');
