@@ -32,7 +32,8 @@ class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
     var delegate : AnyObject?
 
     required init(_ endpoint : URL, callbackScheme : String) {
-        self.aswas = ASWebAuthenticationSession(url: endpoint, callbackURLScheme: callbackScheme, completionHandler: { (callBack:URL?, error:Error?) in
+        let encodedCallback = callbackScheme.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        self.aswas = ASWebAuthenticationSession(url: endpoint, callbackURLScheme: encodedCallback, completionHandler: { (callBack:URL?, error:Error?) in
             if let incomingUrl = callBack {
                 NotificationCenter.default.post(name: NSNotification.Name.CDVPluginHandleOpenURL, object: incomingUrl)
             }
