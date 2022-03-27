@@ -1,0 +1,28 @@
+{
+  "name": "com.ayogo.cordova.oauth.example",
+  "displayName": "OAuthExample",
+  "version": "1.0.0",
+  "author": "Ayogo Health Inc. <info@ayogo.com>",
+  "description": "A sample Apache Cordova application that uses OAuth login.",
+  "license": "Apache-2.0",
+  "cordova": {
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-oauth": {
+        "URL_SCHEME": "oauthtest"
+      }
+    }
+  },
+  "devDependencies": {
+    "cordova": ">= 10.0.0",
+    "cordova-ios": ">= 6.1.0",
+    "cordova-android": ">= 9.0.0",
+    "cordova-plugin-oauth": ">= 4.0.0"
+  },
+  "scripts": {
+    "build": "cordova prepare && cordova build --debug --emulator"
+  }
+}

@@ -1,0 +1,98 @@
+/**
+ * Copyright 2022 Ayogo Health Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+:root {
+  overscroll-behavior: none;
+}
+
+body {
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  -webkit-user-select: none;
+  box-sizing: border-box;
+  background-color: #E4E4E4;
+  background-image: linear-gradient(to bottom, #A7A7A7 0%, #E4E4E4 51%);
+  font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 12px;
+  height: 100vh;
+  margin: 0px;
+  padding: 0px;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  text-transform: uppercase;
+  width: 100%;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    background-image:linear-gradient(to bottom, #585858 0%, #1B1B1B 51%);
+  }
+}
+
+.app {
+  background: url(../img/logo.png) no-repeat center top;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 50px;
+  width: 225px;
+  text-align: center;
+  padding: 180px 0px 0px 0px;
+  margin: -115px 0px 0px -112px;
+}
+
+@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+  .app {
+    background-position:left center;
+    padding:75px 0px 75px 170px;
+    margin:-90px 0px 0px -198px;
+  }
+}
+
+h1 {
+  font-size:24px;
+  font-weight:normal;
+  margin:0px;
+  overflow:visible;
+  padding:0px;
+  text-align:center;
+}
+
+.login {
+  margin-top: 1em;
+  color: white;
+  padding: 0.5em 1em;
+  background: mediumblue linear-gradient(to bottom, blue, mediumblue);
+  font-size: 16px;
+  font-weight: 500;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout {
+  margin-top: 1em;
+  padding: 0.5em 1em;
+  background: transparent;
+  font-size: 14px;
+  border: 0;
+  text-decoration: underline;
+  cursor: pointer;
+  color: LinkText;
+}
