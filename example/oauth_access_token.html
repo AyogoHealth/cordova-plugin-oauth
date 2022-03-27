@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>OAuth Access Token</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light dark">
+
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                height: 100vh;
+                padding: 0;
+                margin: 0;
+            }
+
+            button#login {
+                padding: 1em 2em;
+                font-size: 16px;
+                align-self: center;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="login">Click Here to Login</button>
+
+        <script>
+            // Polyfill for crypto.randomUUID()
+            if (!('randomUUID' in crypto)) {
+                // https://stackoverflow.com/a/2117523/2800218
+                // LICENSE: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+                crypto.randomUUID = function randomUUID() {
+                  return (
+                    [1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
+                    c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+                  );
+                };
+            }
+
+            function performOAuth() {
+                // Function to return some fake OAuth data for this example
+                function getOAuthData() {
+                    // Use a random UUID to create a fake access token
+                    const user_data = { uuid: crypto.randomUUID() };
+                    const access_token = btoa(JSON.stringify(user_data)).replace(/=+$/, '');
+
+                    return { access_token: access_token };
+                }
+
+                // Collect the OAuth data that the app needs.
+                // In a real case, this would probably be retrieved from URL parameters
+                const data = getOAuthData();
+
+                if (window.opener && window.name.match(/^oauth:/)) {
+                    // In a web browser, we want to use postMessage to communicate back
+                    window.opener.postMessage('oauth::' + JSON.stringify(data), '*');
+                } else {
+                    // In Cordova, we want to redirect to the OAuth plugin's scheme
+                    window.location.replace('oauthtest://oauth_callback?access_token=' + data.access_token);
+                }
+
+                // Close the window after postMessaging or redirecting
+                setTimeout(function() { window.close(); }, 100);
+            }
+
+            document.getElementById('login').addEventListener('click', () => {
+                performOAuth();
+            });
+        </script>
+    </body>
+</html>
