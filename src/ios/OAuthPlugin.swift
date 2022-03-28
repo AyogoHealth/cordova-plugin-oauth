@@ -127,7 +127,9 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
         let urlScheme = self.commandDelegate.settings["oauthscheme"] as! String
 
         self.callbackScheme = "\(urlScheme)://oauth_callback"
-        self.logger = OSLog(subsystem: urlScheme, category: "Cordova")
+        if #available(iOS 10.0, *) {
+            self.logger = OSLog(subsystem: urlScheme, category: "Cordova")
+        }
 
         NotificationCenter.default.addObserver(self,
                 selector: #selector(OAuthPlugin._handleOpenURL(_:)),
@@ -186,7 +188,11 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
             jsobj[$0.name] = $0.value
         }
 
-        os_log("OAuth called back with parameters.", log: self.logger!, type: .info)
+        if #available(iOS 10.0, *) {
+            os_log("OAuth called back with parameters.", log: self.logger!, type: .info)
+        } else {
+            NSLog("OAuth called back with parameters.")
+        }
 
         do {
             let data = try JSONSerialization.data(withJSONObject: jsobj)
@@ -195,7 +201,11 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
             self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::\(msg)' }));", completionHandler: nil)
         } catch {
             let errStr = "JSON Serialization failed: \(error)"
-            os_log("%@", log: self.logger!, type: .error, errStr)
+            if #available(iOS 10.0, *) {
+                os_log("%@", log: self.logger!, type: .error, errStr)
+            } else {
+                NSLog(errStr)
+            }
         }
     }
 
