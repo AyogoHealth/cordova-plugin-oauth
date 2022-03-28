@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Ayogo Health Inc.
+ * Copyright 2019 - 2022 Ayogo Health Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,6 +123,9 @@ class SafariAppOAuthSessionProvider : OAuthSessionProvider {
 
 @objc(CDVOAuthPlugin)
 class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding {
+    /** This exists for testing purposes */
+    static var forcedVersion : UInt32 = UInt32.max
+
     var authSystem : OAuthSessionProvider?
     var callbackScheme : String?
     var logger : OSLog?
@@ -153,7 +156,7 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
             return
         }
 
-        if #available(iOS 12.0, *) {
+        if OAuthPlugin.forcedVersion >= 12, #available(iOS 12.0, *) {
             self.authSystem = ASWebAuthenticationSessionOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
 
             if #available(iOS 13.0, *) {
@@ -161,9 +164,9 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
                     aswas.delegate = self
                 }
             }
-        } else if #available(iOS 11.0, *) {
+        } else if OAuthPlugin.forcedVersion >= 11, #available(iOS 11.0, *) {
             self.authSystem = SFAuthenticationSessionOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
-        } else if #available(iOS 9.0, *) {
+        } else if OAuthPlugin.forcedVersion >= 9, #available(iOS 9.0, *) {
             self.authSystem = SFSafariViewControllerOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
 
             if let sfvc = self.authSystem as? SFSafariViewControllerOAuthSessionProvider {
