@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+#if canImport(Cordova)
+import Cordova
+#endif
+
 import os.log
 import Foundation
 import AuthenticationServices
