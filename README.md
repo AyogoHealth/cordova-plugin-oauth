@@ -109,4 +109,4 @@ Licence
 Released under the Apache 2.0 Licence.  
 Copyright © 2020 Ayogo Health Inc.
 
-[coc]: https://github.com/AyogoHealth/cordova-plugin-oauth/blob/master/CODE_OF_CONDUCT.md
+[coc]: https://github.com/AyogoHealth/cordova-plugin-oauth/blob/main/CODE_OF_CONDUCT.md
