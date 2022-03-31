@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Ayogo Health Inc.
+  Copyright 2021-2022 Ayogo Health Inc.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -29,6 +29,10 @@ falling back to their browser.
 
 **Note:** This plugin might conflict with the Cordova In-App Browser plugin!
 
+> ℹ️ **This plugin uses AndroidX!**
+>
+> Use version 3.x if you are building without AndroidX enabled.
+
 
 Installation
 ------------
@@ -51,7 +55,7 @@ Supported Platforms
 -------------------
 
 * **iOS** (cordova-ios >= 6.1.0)
-* **Android** (cordova-android >= 8.0.0)
+* **Android** (cordova-android >= 9.0.0)
 
 
 Usage
@@ -107,6 +111,6 @@ Licence
 -------
 
 Released under the Apache 2.0 Licence.  
-Copyright © 2020 Ayogo Health Inc.
+Copyright © 2020-2022 Ayogo Health Inc.
 
 [coc]: https://github.com/AyogoHealth/cordova-plugin-oauth/blob/main/CODE_OF_CONDUCT.md
