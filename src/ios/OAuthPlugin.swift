@@ -20,7 +20,7 @@ import AuthenticationServices
 import SafariServices
 
 @objc protocol OAuthSessionProvider {
-    init(_ endpoint : URL, callbackScheme : String)
+    init(_ endpoint : URL, callbackScheme : String, plugin: OAuthPlugin)
     func start() -> Void
     func cancel() -> Void
 }
@@ -29,14 +29,20 @@ import SafariServices
 class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
     private var aswas : ASWebAuthenticationSession
 
-    var delegate : AnyObject?
+    var delegate : OAuthPlugin?
 
-    required init(_ endpoint : URL, callbackScheme : String) {
+    required init(_ endpoint : URL, callbackScheme : String, plugin: OAuthPlugin) {
         let url: URL = URL(string: callbackScheme)!
         let callbackURLScheme: String = url.scheme ?? callbackScheme
         self.aswas = ASWebAuthenticationSession(url: endpoint, callbackURLScheme: callbackURLScheme, completionHandler: { (callBack:URL?, error:Error?) in
-            if let incomingUrl = callBack {
-                NotificationCenter.default.post(name: NSNotification.Name.CDVPluginHandleOpenURL, object: incomingUrl)
+            if error == nil {
+                NotificationCenter.default.post(name: NSNotification.Name.CDVPluginHandleOpenURL, object: callBack)
+            } else {
+                if case ASWebAuthenticationSessionError.canceledLogin = error! {
+                    plugin.handleCancelled()
+                } else {
+                    plugin.handleError(error: error)
+                }
             }
         })
     }
@@ -45,6 +51,7 @@ class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
         if #available(iOS 13.0, *) {
             if let provider = self.delegate as? ASWebAuthenticationPresentationContextProviding {
                 self.aswas.presentationContextProvider = provider
+                self.aswas.prefersEphemeralWebBrowserSession = true
             }
         }
 
@@ -60,7 +67,7 @@ class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
 class SFAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
     private var sfas : SFAuthenticationSession
 
-    required init(_ endpoint : URL, callbackScheme : String) {
+    required init(_ endpoint : URL, callbackScheme : String, plugin: OAuthPlugin) {
         self.sfas = SFAuthenticationSession(url: endpoint, callbackURLScheme: callbackScheme, completionHandler: { (callBack:URL?, error:Error?) in
             if let incomingUrl = callBack {
                 NotificationCenter.default.post(name: NSNotification.Name.CDVPluginHandleOpenURL, object: incomingUrl)
@@ -84,7 +91,7 @@ class SFSafariViewControllerOAuthSessionProvider : OAuthSessionProvider {
     var viewController : UIViewController?
     var delegate : SFSafariViewControllerDelegate?
 
-    required init(_ endpoint : URL, callbackScheme : String) {
+    required init(_ endpoint : URL, callbackScheme : String, plugin: OAuthPlugin) {
         self.sfvc = SFSafariViewController(url: endpoint)
     }
 
@@ -104,7 +111,7 @@ class SFSafariViewControllerOAuthSessionProvider : OAuthSessionProvider {
 class SafariAppOAuthSessionProvider : OAuthSessionProvider {
     var url : URL;
 
-    required init(_ endpoint : URL, callbackScheme : String) {
+    required init(_ endpoint : URL, callbackScheme : String, plugin: OAuthPlugin) {
         self.url = endpoint
     }
 
@@ -126,7 +133,7 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
     override func pluginInitialize() {
         let urlScheme = self.commandDelegate.settings["oauthscheme"] as! String
 
-        self.callbackScheme = "\(urlScheme)://oauth_callback"
+        self.callbackScheme = "\(urlScheme)://sign"
         if #available(iOS 10.0, *) {
             self.logger = OSLog(subsystem: urlScheme, category: "Cordova")
         }
@@ -150,7 +157,7 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
         }
 
         if #available(iOS 12.0, *) {
-            self.authSystem = ASWebAuthenticationSessionOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
+            self.authSystem = ASWebAuthenticationSessionOAuthSessionProvider(url, callbackScheme:self.callbackScheme!, plugin: self)
 
             if #available(iOS 13.0, *) {
                 if let aswas = self.authSystem as? ASWebAuthenticationSessionOAuthSessionProvider {
@@ -158,16 +165,16 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
                 }
             }
         } else if #available(iOS 11.0, *) {
-            self.authSystem = SFAuthenticationSessionOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
+            self.authSystem = SFAuthenticationSessionOAuthSessionProvider(url, callbackScheme:self.callbackScheme!, plugin: self)
         } else if #available(iOS 9.0, *) {
-            self.authSystem = SFSafariViewControllerOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
+            self.authSystem = SFSafariViewControllerOAuthSessionProvider(url, callbackScheme:self.callbackScheme!, plugin: self)
 
             if let sfvc = self.authSystem as? SFSafariViewControllerOAuthSessionProvider {
                 sfvc.delegate = self
                 sfvc.viewController = self.viewController
             }
         } else {
-            self.authSystem = SafariAppOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
+            self.authSystem = SafariAppOAuthSessionProvider(url, callbackScheme:self.callbackScheme!, plugin: self)
         }
 
         self.authSystem?.start()
@@ -198,7 +205,7 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
             let data = try JSONSerialization.data(withJSONObject: jsobj)
             let msg = String(data: data, encoding: .utf8)!
 
-            self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::\(msg)' }));", completionHandler: nil)
+            self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('oauth_message', { data: '\(url.absoluteString)' }));", completionHandler: nil)
         } catch {
             let errStr = "JSON Serialization failed: \(error)"
             if #available(iOS 10.0, *) {
@@ -232,5 +239,17 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
     @available(iOS 13.0, *)
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return self.viewController.view.window ?? ASPresentationAnchor()
+    }
+
+    func handleError(error: Error?) {
+        self.authSystem?.cancel()
+        self.authSystem = nil
+        self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('oauth_error', { data: '' }));", completionHandler: nil)
+    }
+
+    func handleCancelled() {
+        self.authSystem?.cancel()
+        self.authSystem = nil
+        self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('oauth_cancelled', { data: '' }));", completionHandler: nil)
     }
 }

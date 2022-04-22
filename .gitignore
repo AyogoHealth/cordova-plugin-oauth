@@ -9,3 +9,5 @@ Thumbs.db
 *.log
 *.swp
 *.user
+
+.vscode

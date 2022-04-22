@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-oauth" version="4.0.0">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-oauth" version="4.0.1">
   <name>cordova-plugin-oauth</name>
   <description>Cordova plugin for performing OAuth login flows.</description>
   <keywords>cordova,ios,android,oauth</keywords>
@@ -25,8 +25,8 @@ limitations under the License.
   <preference name="URL_SCHEME" default="$PACKAGE_NAME" />
 
   <engines>
-    <engine name="cordova-ios" version=">= 6.1.0" />
-    <engine name="cordova-android" version=">= 9.0.0" />
+    <engine name="cordova-ios" version=">= 5.0.0" />
+    <engine name="cordova-android" version=">= 8.0.0" />
   </engines>
 
   <js-module src="www/oauth.js" name="OAuth">
