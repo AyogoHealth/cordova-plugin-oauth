@@ -1,5 +1,5 @@
 <!--
-  Copyright 2019 Ayogo Health Inc.
+  Copyright 2021-2022 Ayogo Health Inc.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -29,20 +29,33 @@ falling back to their browser.
 
 **Note:** This plugin might conflict with the Cordova In-App Browser plugin!
 
+> ℹ️ **This plugin uses AndroidX!**
+>
+> Use version 3.x if you are building without AndroidX enabled.
+
 
 Installation
 ------------
 
 ```
-cordova plugin add cordova-plugin-oauth
+cordova plugin add cordova-plugin-oauth [--variable URL_SCHEME=mycoolapp]
 ```
+
+By default, the plugin registers the app ID as a scheme to be used as the
+OAuth callback URL, and expects a host of `oauth_callback` (i.e., if your
+app's ID is `com.example.foo`, your OAuth redirect URL should be
+`com.example.foo://oauth_callback`).
+
+The scheme for the OAuth callback URL can be changed by providing a
+`URL_SCHEME` variable when installing. If your `URL_SCHEME` is `mycoolapp`,
+then your OAuth redirect URL should be `mycoolapp://oauth_callback`.
 
 
 Supported Platforms
 -------------------
 
-* **iOS** (cordova-ios >= 5.0.0)
-* **Android** (cordova-android >= 8.0.0)
+* **iOS** (cordova-ios >= 6.1.0)
+* **Android** (cordova-android >= 9.0.0)
 
 
 Usage
@@ -55,11 +68,6 @@ Usage
     var endpoint = 'https://accounts.google.com/o/oauth2/v2/auth?....';
     window.open(endpoint, 'oauth:google', '');
     ```
-
-    By default, the plugin registers the app ID as a scheme to be used as the
-    OAuth callback URL, and expects a host of `oauth_callback` (i.e., if your
-    app's ID is `com.example.foo`, your OAuth redirect URL should be
-    `com.example.foo://oauth_callback`).
 
 2.  The plugin will open the OAuth login page in a new browser window.
 
@@ -103,6 +111,6 @@ Licence
 -------
 
 Released under the Apache 2.0 Licence.  
-Copyright © 2019 Ayogo Health Inc.
+Copyright © 2020-2022 Ayogo Health Inc.
 
-[coc]: https://github.com/AyogoHealth/cordova-plugin-oauth/blob/master/CODE_OF_CONDUCT.md
+[coc]: https://github.com/AyogoHealth/cordova-plugin-oauth/blob/main/CODE_OF_CONDUCT.md
