@@ -100,7 +100,7 @@ class SFSafariViewControllerOAuthSessionProvider : OAuthSessionProvider {
             self.sfvc.delegate = self.delegate
         }
 
-        self.viewController?.present(self.sfvc, animated: false, completion: nil)
+        self.viewController?.present(self.sfvc, animated: true, completion: nil)
     }
 
     func cancel() {
@@ -131,11 +131,11 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
     var logger : OSLog?
 
     override func pluginInitialize() {
-        let appID = Bundle.main.bundleIdentifier!
+        let urlScheme = self.commandDelegate.settings["oauthscheme"] as! String
 
-        self.callbackScheme = "com.virtualmgr.vmplayer://"
+        self.callbackScheme = "\(urlScheme)://"
         if #available(iOS 10.0, *) {
-            self.logger = OSLog(subsystem: appID, category: "Cordova")
+            self.logger = OSLog(subsystem: urlScheme, category: "Cordova")
         }
 
         NotificationCenter.default.addObserver(self,
@@ -174,7 +174,6 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
                 sfvc.viewController = self.viewController
             }
         } else {
-
             self.authSystem = SafariAppOAuthSessionProvider(url, callbackScheme:self.callbackScheme!, plugin: self)
         }
 
