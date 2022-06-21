@@ -59,6 +59,7 @@ public class OAuthPlugin extends CordovaPlugin {
      */
     private String tabProvider = null;
 
+    private Boolean showingLogin = false;
 
     /**
      * Executes the request.
@@ -94,8 +95,6 @@ public class OAuthPlugin extends CordovaPlugin {
         return false;
     }
 
-
-
     /**
      * Called when the activity receives a new intent.
      *
@@ -110,25 +109,24 @@ public class OAuthPlugin extends CordovaPlugin {
 
         final Uri uri = intent.getData();
 
-        if (uri.getHost().equals("oauth_callback")) {
+        if (uri.getHost().startsWith("sign")) {
+            showingLogin = false;
+
             LOG.i(TAG, "OAuth called back with parameters.");
 
-            try {
-                JSONObject jsobj = new JSONObject();
-
-                for (String queryKey : uri.getQueryParameterNames()) {
-                    jsobj.put(queryKey, uri.getQueryParameter(queryKey));
-                }
-
-                final String msg = jsobj.toString();
-                this.webView.getEngine().evaluateJavascript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::" + msg + "' }));", null);
-            } catch (JSONException e) {
-                LOG.e(TAG, "JSON Serialization failed");
-                e.printStackTrace();
-            }
+            final String js = "window.dispatchEvent(new MessageEvent('oauth_message', { data: '" + uri.toString() + "' }));";
+            this.webView.getEngine().evaluateJavascript(js, null);
         }
     }
 
+    @Override
+    public void onResume(boolean multitasking)
+    {
+        if (showingLogin) {
+            showingLogin = false;
+            this.webView.getEngine().evaluateJavascript("window.dispatchEvent(new MessageEvent('oauth_cancelled', { data: '' }));", null);
+        }
+    }
 
     /**
      * Launches the custom tab with the OAuth endpoint URL.
@@ -147,6 +145,8 @@ public class OAuthPlugin extends CordovaPlugin {
         }
 
         customTabsIntent.launchUrl(this.cordova.getActivity(), Uri.parse(url));
+
+        showingLogin = true;
     }
 
 
