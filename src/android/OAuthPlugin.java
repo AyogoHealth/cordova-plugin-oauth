@@ -33,6 +33,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.CordovaWebViewEngine;
 import org.apache.cordova.LOG;
 import org.apache.cordova.PluginResult;
 
@@ -121,7 +122,14 @@ public class OAuthPlugin extends CordovaPlugin {
                 }
 
                 final String msg = jsobj.toString();
-                this.webView.getEngine().evaluateJavascript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::" + msg + "' }));", null);
+                CordovaWebViewEngine engine = this.webView.getEngine();
+                final String jsCode = "window.dispatchEvent(new MessageEvent('message', { data: 'oauth::" + msg + "' }));";
+                if (engine != null) {
+                    engine.evaluateJavascript(jsCode, null);
+                } else {
+                    this.webView.sendJavascript(jsCode);
+                }
+
             } catch (JSONException e) {
                 LOG.e(TAG, "JSON Serialization failed");
                 e.printStackTrace();
