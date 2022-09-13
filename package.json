@@ -19,6 +19,11 @@
     "cordova-android",
     "cordova-ios"
   ],
+  "files": [
+    "src",
+    "www",
+    "plugin.xml"
+  ],
   "cordova": {
     "platforms": [
       "ios",
