@@ -95,6 +95,10 @@ Usage
     Universal Links and App Links so that the same flow can be used in both
     mobile apps and web.
 
+    If the login was cancelled by the user without interacting with the 
+    endpoint by closing the overlay without logging in, the received message 
+    in JavaScript will be `oauth::{"error": "cancelled"}`.
+
 
 Contributing
 ------------

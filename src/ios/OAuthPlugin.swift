@@ -37,6 +37,8 @@ class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
         self.aswas = ASWebAuthenticationSession(url: endpoint, callbackURLScheme: callbackURLScheme, completionHandler: { (callBack:URL?, error:Error?) in
             if let incomingUrl = callBack {
                 NotificationCenter.default.post(name: NSNotification.Name.CDVPluginHandleOpenURL, object: incomingUrl)
+            } else if let err = error {
+                NotificationCenter.default.post(name: Notification.Name("oAuthCancellation"), object: err)
             }
         })
     }
@@ -64,6 +66,8 @@ class SFAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
         self.sfas = SFAuthenticationSession(url: endpoint, callbackURLScheme: callbackScheme, completionHandler: { (callBack:URL?, error:Error?) in
             if let incomingUrl = callBack {
                 NotificationCenter.default.post(name: NSNotification.Name.CDVPluginHandleOpenURL, object: incomingUrl)
+            } else if let err = error {
+                NotificationCenter.default.post(name: Notification.Name("oAuthCancellation"), object: err)
             }
         })
     }
@@ -134,6 +138,11 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
         NotificationCenter.default.addObserver(self,
                 selector: #selector(OAuthPlugin._handleOpenURL(_:)),
                 name: NSNotification.Name.CDVPluginHandleOpenURL,
+                object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                selector: #selector(OAuthPlugin._handleError(_:)),
+                name: Notification.Name("oAuthCancellation"),
                 object: nil)
     }
 
@@ -209,6 +218,10 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
         }
     }
 
+
+    @objc internal func _handleError(_ notification : NSNotification) {
+        self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::{\"error\":\"cancelled\"}' }));", completionHandler: nil)
+    }
 
     @objc internal func _handleOpenURL(_ notification : NSNotification) {
         guard let url = notification.object as? URL else {
