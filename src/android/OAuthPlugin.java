@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Ayogo Health Inc.
+ * Copyright 2019 - 2022 Ayogo Health Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
@@ -76,7 +77,7 @@ public class OAuthPlugin extends CordovaPlugin {
      * @return                Whether the action was valid.
      */
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+    public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) {
         if ("startOAuth".equals(action)) {
             try {
                 String authEndpoint = args.getString(0);
