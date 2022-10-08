@@ -46,3 +46,35 @@ jobs:
             -testPlan DeviceTests \
             -destination "platform=iOS Simulator,name=iPhone 13"
         working-directory: ./tests/ios
+
+
+  test-android:
+    name: "Android Tests"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Use Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+
+      - name: Set up example app
+        run: |
+          npm i
+          npx cordova prepare android
+        working-directory: ./example
+
+      - name: Run Android Unit Tests
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 7.5.1
+          arguments: test
+          build-root-directory: ./tests/android
