@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "499B7A65-D2B7-4953-8541-6A9A89F54ADE",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:OAuthPluginTests.xcodeproj",
+      "identifier" : "905131B827F1631300AC00FC",
+      "name" : "OAuthPluginTest"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OAuthPluginTests.xcodeproj",
+        "identifier" : "905131D827F1631600AC00FC",
+        "name" : "UITests"
+      }
+    }
+  ],
+  "version" : 1
+}

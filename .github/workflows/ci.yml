@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  test-ios:
+    name: "iOS Tests"
+    runs-on: macos-12
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_13.4.1.app/Contents/Developer
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Set up example app
+        run: |
+          npm i
+          npx cordova prepare ios
+        working-directory: ./example
+
+      - name: Run iOS Unit Tests
+        run: |
+          xcodebuild test -quiet \
+            -project OAuthPluginTests.xcodeproj \
+            -scheme OAuthPluginTests \
+            -testPlan UnitTests \
+            -destination "platform=iOS Simulator,name=iPhone 13"
+        working-directory: ./tests/ios
+
+      - name: Run iOS UI Tests
+        run: |
+          xcodebuild test -quiet \
+            -project OAuthPluginTests.xcodeproj \
+            -scheme OAuthPluginTests \
+            -testPlan DeviceTests \
+            -destination "platform=iOS Simulator,name=iPhone 13"
+        working-directory: ./tests/ios

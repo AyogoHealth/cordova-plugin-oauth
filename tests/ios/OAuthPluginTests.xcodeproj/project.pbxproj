@@ -1,0 +1,597 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 53;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		905131BD27F1631300AC00FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905131BC27F1631300AC00FC /* AppDelegate.swift */; };
+		905131D427F1631600AC00FC /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905131D327F1631600AC00FC /* Tests.swift */; };
+		905131DE27F1631600AC00FC /* UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905131DD27F1631600AC00FC /* UITests.swift */; };
+		905131EE27F1648A00AC00FC /* CordovaLib in Frameworks */ = {isa = PBXBuildFile; productRef = 905131ED27F1648A00AC00FC /* CordovaLib */; };
+		905131F127F1670900AC00FC /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 905131F027F1670900AC00FC /* config.xml */; };
+		905131F827F168FC00AC00FC /* OAuthPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905131F727F168FC00AC00FC /* OAuthPlugin.swift */; };
+		907328F328D04C0C006F6BFA /* www in Resources */ = {isa = PBXBuildFile; fileRef = 907328F228D04C0C006F6BFA /* www */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		905131D027F1631600AC00FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 905131B127F1631300AC00FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 905131B827F1631300AC00FC;
+			remoteInfo = Tests;
+		};
+		905131DA27F1631600AC00FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 905131B127F1631300AC00FC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 905131B827F1631300AC00FC;
+			remoteInfo = Tests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		905131B927F1631300AC00FC /* OAuthPluginTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OAuthPluginTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		905131BC27F1631300AC00FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		905131CF27F1631600AC00FC /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		905131D327F1631600AC00FC /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		905131D927F1631600AC00FC /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		905131DD27F1631600AC00FC /* UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITests.swift; sourceTree = "<group>"; };
+		905131F027F1670900AC00FC /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		905131F727F168FC00AC00FC /* OAuthPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OAuthPlugin.swift; path = ../../../src/ios/OAuthPlugin.swift; sourceTree = "<group>"; };
+		9056A938285BDDC00086CDF8 /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = UnitTests.xctestplan; path = OAuthPluginTests.xcodeproj/UnitTests.xctestplan; sourceTree = "<group>"; };
+		9056A939285BDE4E0086CDF8 /* DeviceTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = DeviceTests.xctestplan; path = OAuthPluginTests.xcodeproj/DeviceTests.xctestplan; sourceTree = "<group>"; };
+		907328F228D04C0C006F6BFA /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../../example/platforms/ios/www; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		905131B627F1631300AC00FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				905131EE27F1648A00AC00FC /* CordovaLib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		905131CC27F1631600AC00FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		905131D627F1631600AC00FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		905131B027F1631300AC00FC = {
+			isa = PBXGroup;
+			children = (
+				9056A939285BDE4E0086CDF8 /* DeviceTests.xctestplan */,
+				9056A938285BDDC00086CDF8 /* UnitTests.xctestplan */,
+				905131BB27F1631300AC00FC /* App */,
+				905131D227F1631600AC00FC /* Tests */,
+				905131DC27F1631600AC00FC /* UITests */,
+				905131BA27F1631300AC00FC /* Products */,
+				909D55A627F176880050F168 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		905131BA27F1631300AC00FC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				905131B927F1631300AC00FC /* OAuthPluginTest.app */,
+				905131CF27F1631600AC00FC /* Tests.xctest */,
+				905131D927F1631600AC00FC /* UITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		905131BB27F1631300AC00FC /* App */ = {
+			isa = PBXGroup;
+			children = (
+				907328F228D04C0C006F6BFA /* www */,
+				905131F727F168FC00AC00FC /* OAuthPlugin.swift */,
+				905131F027F1670900AC00FC /* config.xml */,
+				905131BC27F1631300AC00FC /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		905131D227F1631600AC00FC /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				905131D327F1631600AC00FC /* Tests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		905131DC27F1631600AC00FC /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				905131DD27F1631600AC00FC /* UITests.swift */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		909D55A627F176880050F168 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		905131B827F1631300AC00FC /* OAuthPluginTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 905131E327F1631600AC00FC /* Build configuration list for PBXNativeTarget "OAuthPluginTest" */;
+			buildPhases = (
+				905131B527F1631300AC00FC /* Sources */,
+				905131B627F1631300AC00FC /* Frameworks */,
+				905131B727F1631300AC00FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OAuthPluginTest;
+			packageProductDependencies = (
+				905131ED27F1648A00AC00FC /* CordovaLib */,
+			);
+			productName = Tests;
+			productReference = 905131B927F1631300AC00FC /* OAuthPluginTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		905131CE27F1631600AC00FC /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 905131E627F1631600AC00FC /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				905131CB27F1631600AC00FC /* Sources */,
+				905131CC27F1631600AC00FC /* Frameworks */,
+				905131CD27F1631600AC00FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				905131D127F1631600AC00FC /* PBXTargetDependency */,
+			);
+			name = Tests;
+			packageProductDependencies = (
+			);
+			productName = TestsTests;
+			productReference = 905131CF27F1631600AC00FC /* Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		905131D827F1631600AC00FC /* UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 905131E927F1631600AC00FC /* Build configuration list for PBXNativeTarget "UITests" */;
+			buildPhases = (
+				905131D527F1631600AC00FC /* Sources */,
+				905131D627F1631600AC00FC /* Frameworks */,
+				905131D727F1631600AC00FC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				905131DB27F1631600AC00FC /* PBXTargetDependency */,
+			);
+			name = UITests;
+			productName = TestsUITests;
+			productReference = 905131D927F1631600AC00FC /* UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		905131B127F1631300AC00FC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1330;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					905131B827F1631300AC00FC = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					905131CE27F1631600AC00FC = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 905131B827F1631300AC00FC;
+					};
+					905131D827F1631600AC00FC = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 905131B827F1631300AC00FC;
+					};
+				};
+			};
+			buildConfigurationList = 905131B427F1631300AC00FC /* Build configuration list for PBXProject "OAuthPluginTests" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 905131B027F1631300AC00FC;
+			packageReferences = (
+				905131EC27F1648A00AC00FC /* XCRemoteSwiftPackageReference "cordova-ios" */,
+			);
+			productRefGroup = 905131BA27F1631300AC00FC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				905131B827F1631300AC00FC /* OAuthPluginTest */,
+				905131CE27F1631600AC00FC /* Tests */,
+				905131D827F1631600AC00FC /* UITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		905131B727F1631300AC00FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				907328F328D04C0C006F6BFA /* www in Resources */,
+				905131F127F1670900AC00FC /* config.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		905131CD27F1631600AC00FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		905131D727F1631600AC00FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		905131B527F1631300AC00FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				905131F827F168FC00AC00FC /* OAuthPlugin.swift in Sources */,
+				905131BD27F1631300AC00FC /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		905131CB27F1631600AC00FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				905131D427F1631600AC00FC /* Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		905131D527F1631600AC00FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				905131DE27F1631600AC00FC /* UITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		905131D127F1631600AC00FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 905131B827F1631300AC00FC /* OAuthPluginTest */;
+			targetProxy = 905131D027F1631600AC00FC /* PBXContainerItemProxy */;
+		};
+		905131DB27F1631600AC00FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 905131B827F1631300AC00FC /* OAuthPluginTest */;
+			targetProxy = 905131DA27F1631600AC00FC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		905131E127F1631600AC00FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		905131E227F1631600AC00FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		905131E427F1631600AC00FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ayogo.cordova.oauth.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		905131E527F1631600AC00FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ayogo.cordova.oauth.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		905131E727F1631600AC00FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ayogo.cordova.oauth.tests.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OAuthPluginTest.app/OAuthPluginTest";
+			};
+			name = Debug;
+		};
+		905131E827F1631600AC00FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ayogo.cordova.oauth.tests.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OAuthPluginTest.app/OAuthPluginTest";
+			};
+			name = Release;
+		};
+		905131EA27F1631600AC00FC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"$(LD_RUNPATH_SEARCH_PATHS_SHALLOW_BUNDLE_$(SHALLOW_BUNDLE))",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ayogo.cordova.oauth.tests.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = OAuthPluginTest;
+			};
+			name = Debug;
+		};
+		905131EB27F1631600AC00FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"$(LD_RUNPATH_SEARCH_PATHS_SHALLOW_BUNDLE_$(SHALLOW_BUNDLE))",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ayogo.cordova.oauth.tests.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = OAuthPluginTest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		905131B427F1631300AC00FC /* Build configuration list for PBXProject "OAuthPluginTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				905131E127F1631600AC00FC /* Debug */,
+				905131E227F1631600AC00FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		905131E327F1631600AC00FC /* Build configuration list for PBXNativeTarget "OAuthPluginTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				905131E427F1631600AC00FC /* Debug */,
+				905131E527F1631600AC00FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		905131E627F1631600AC00FC /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				905131E727F1631600AC00FC /* Debug */,
+				905131E827F1631600AC00FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		905131E927F1631600AC00FC /* Build configuration list for PBXNativeTarget "UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				905131EA27F1631600AC00FC /* Debug */,
+				905131EB27F1631600AC00FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		905131EC27F1648A00AC00FC /* XCRemoteSwiftPackageReference "cordova-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apache/cordova-ios.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		905131ED27F1648A00AC00FC /* CordovaLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 905131EC27F1648A00AC00FC /* XCRemoteSwiftPackageReference "cordova-ios" */;
+			productName = CordovaLib;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 905131B127F1631300AC00FC /* Project object */;
+}
