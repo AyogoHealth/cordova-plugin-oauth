@@ -35,6 +35,7 @@ jobs:
             -project OAuthPluginTests.xcodeproj \
             -scheme OAuthPluginTests \
             -testPlan UnitTests \
+            -resultBundlePath UnitTestResults.xcresult \
             -destination "platform=iOS Simulator,name=iPhone 13"
         working-directory: ./tests/ios
 
@@ -44,5 +45,14 @@ jobs:
             -project OAuthPluginTests.xcodeproj \
             -scheme OAuthPluginTests \
             -testPlan DeviceTests \
+            -resultBundlePath DeviceTestResults.xcresult \
             -destination "platform=iOS Simulator,name=iPhone 13"
         working-directory: ./tests/ios
+
+      - uses: kishikawakatsumi/xcresulttool@v1
+        with:
+          upload-bundles: false
+          path: |
+            ./tests/ios/UnitTestResults.xcresult
+            ./tests/ios/DeviceTestResults.xcresult
+        if: success() || failure()
