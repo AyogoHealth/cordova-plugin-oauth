@@ -30,7 +30,7 @@ limitations under the License.
   </engines>
 
   <js-module src="www/oauth.js" name="OAuth">
-    <clobbers target="open" />
+    <clobbers target="openOAuth" />
   </js-module>
 
   <config-file target="config.xml" parent="/*">
