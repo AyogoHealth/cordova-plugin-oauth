@@ -49,6 +49,7 @@ class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
         if #available(iOS 13.0, *) {
             if let provider = self.delegate as? ASWebAuthenticationPresentationContextProviding {
                 self.aswas.presentationContextProvider = provider
+                self.aswas.prefersEphemeralWebBrowserSession = true
             }
         }
 
