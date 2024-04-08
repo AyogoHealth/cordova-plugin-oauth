@@ -25,6 +25,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import androidx.browser.customtabs.CustomTabsIntent;
 import android.text.TextUtils;
+import java.net.URLDecoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +118,22 @@ public class OAuthPlugin extends CordovaPlugin {
             try {
                 JSONObject jsobj = new JSONObject();
 
+                // Parse fragment parameters
+                if (uri.getFragment() != null) {
+                    String fragment = uri.getFragment();
+                    String[] pairs = fragment.split("&");
+                    for (String pair : pairs) {
+                        String[] keyValue = pair.split("=");
+                        if (keyValue.length == 2) {
+                            // Decode the fragment parameter before adding it to the JSONObject
+                            String key = URLDecoder.decode(keyValue[0], "UTF-8");
+                            String value = URLDecoder.decode(keyValue[1], "UTF-8");
+                            jsobj.put(key, value);
+                        }
+                    }
+                }
+
+                // Parse query parameters
                 for (String queryKey : uri.getQueryParameterNames()) {
                     jsobj.put(queryKey, uri.getQueryParameter(queryKey));
                 }
