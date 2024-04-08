@@ -126,8 +126,8 @@ public class OAuthPlugin extends CordovaPlugin {
                         String[] keyValue = pair.split("=");
                         if (keyValue.length == 2) {
                             // Decode the fragment parameter before adding it to the JSONObject
-                            String key = URLDecoder.decode(keyValue[0], "UTF-8");
-                            String value = URLDecoder.decode(keyValue[1], "UTF-8");
+                            String key = keyValue[0];
+                            String value = keyValue[1];
                             jsobj.put(key, value);
                         }
                     }
