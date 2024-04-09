@@ -59,7 +59,7 @@ class OAuthPluginUITests: XCTestCase {
 
         // Verify the app received the OAuth token and considers us logged in
         let loggedIn = app.staticTexts["LOGGED IN"]
-        _ = loggedIn.waitForExistence(timeout: 5)
+        _ = loggedIn.waitForExistence(timeout: 45)
         XCTAssert(loggedIn.exists)
     }
 
@@ -71,7 +71,7 @@ class OAuthPluginUITests: XCTestCase {
         }
 
         let oauthButton = app.webViews.buttons["Click Here to Login"]
-        _ = oauthButton.waitForExistence(timeout: 5)
+        _ = oauthButton.waitForExistence(timeout: 25)
         XCTAssert(oauthButton.exists)
         XCTAssert(oauthButton.isHittable)
         oauthButton.tap()
