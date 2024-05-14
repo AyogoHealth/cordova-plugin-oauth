@@ -103,7 +103,18 @@ public class OAuthPlugin extends CordovaPlugin {
      */
     @Override
     public void onNewIntent(Intent intent) {
-        if (intent == null || !intent.getAction().equals(Intent.ACTION_VIEW)) {
+        if (intent == null) {
+            return;
+        }
+
+        if (intent.getAction() == null) {
+            return;
+        }
+
+        String actName = intent.getAction();
+
+        // Fix for LUCIFER-749 - This adds additional support for Chrome OS
+        if (!actName.equals(Intent.ACTION_VIEW) && !actName.equals("org.chromium.arc.intent.action.VIEW")) {
             return;
         }
 
