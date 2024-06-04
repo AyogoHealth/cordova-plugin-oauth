@@ -118,7 +118,7 @@ class OAuthPluginTests: XCTestCase {
     func testOAuthCommandURL() throws {
         plugin.pluginInitialize()
 
-        let nonURLcmd = CDVInvokedUrlCommand(arguments:["Hello world!"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
+        let nonURLcmd = CDVInvokedUrlCommand(arguments:[""], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(nonURLcmd!)
         XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.error.rawValue)
     }
