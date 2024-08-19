@@ -78,13 +78,13 @@ class OAuthPluginTests: XCTestCase {
     var plugin: OAuthPlugin!
     var cmdDlg: MockCommandDelegate!
     var webEngine: MockWebViewEngine!
-    var vc: UIViewController!
+    var vc: CDVViewController!
 
     override func setUpWithError() throws {
         // Always reset this to the default
         OAuthPlugin.forcedVersion = UInt32.max
 
-        vc = UIViewController()
+        vc = CDVViewController()
         cmdDlg = MockCommandDelegate()
         webEngine = MockWebViewEngine(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
 

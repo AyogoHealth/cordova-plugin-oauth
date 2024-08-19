@@ -19,4 +19,18 @@ import Cordova
 
 @UIApplicationMain
 class AppDelegate: CDVAppDelegate {
+    var _window : UIWindow?;
+
+    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        let bounds = UIScreen.main.bounds;
+
+        let window = UIWindow(frame: bounds);
+        window.autoresizesSubviews = true;
+        window.rootViewController = CDVViewController();
+        window.makeKeyAndVisible();
+
+        self._window = window;
+
+        return true;
+    }
 }

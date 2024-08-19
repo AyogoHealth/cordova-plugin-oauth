@@ -10,11 +10,13 @@
   ],
   "defaultOptions" : {
     "codeCoverage" : false,
+    "repeatInNewRunnerProcess" : true,
     "targetForVariableExpansion" : {
       "containerPath" : "container:OAuthPluginTests.xcodeproj",
       "identifier" : "905131B827F1631300AC00FC",
       "name" : "OAuthPluginTest"
-    }
+    },
+    "testRepetitionMode" : "retryOnFailure"
   },
   "testTargets" : [
     {
