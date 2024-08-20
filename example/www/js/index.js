@@ -21,12 +21,23 @@ const authElements = new Set();
 /**
  * Click handler for the login button to start the OAuth flow.
  */
-document.getElementById('login-button').addEventListener('click', () => {
-  // Our fake OAuth redirecting page
-  const url = 'https://ayogohealth.github.io/cordova-plugin-oauth/example/oauth_access_token.html';
+document.querySelectorAll('.login').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    // Our fake OAuth redirecting page
+    const url = 'https://ayogohealth.github.io/cordova-plugin-oauth/example/oauth_access_token.html';
 
-  // Open a window with the "oauth:" prefix to trigger the plugin
-  window.open(url, 'oauth:testpage');
+    // Open a window with the "oauth:" prefix to trigger the plugin
+    const hwnd = window.open(url, 'oauth:testpage');
+
+    hwnd.addEventListener('close', (evt) => {
+      if (!localStorage.getItem('access_token')) {
+        localStorage.setItem('login_cancelled', 'true');
+
+        // Re-evaluate the authentication elements
+        authElements.forEach((el) => el.evaluateState());
+      }
+    });
+  })
 });
 
 
@@ -80,9 +91,12 @@ class AuthRouterElement extends HTMLElement {
 
   evaluateState() {
     const access_token = localStorage.getItem('access_token');
+    const login_cancelled = localStorage.getItem('login_cancelled');
 
     if (access_token && access_token != '') {
       this.shadowRoot.innerHTML = '<slot name="authenticated"></slot>';
+    } else if (login_cancelled && login_cancelled != '') {
+      this.shadowRoot.innerHTML = '<slot name="login_cancelled"></slot>';
     } else {
       this.shadowRoot.innerHTML = '<slot name="unauthenticated"></slot>';
     }

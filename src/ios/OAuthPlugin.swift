@@ -23,6 +23,10 @@ import Foundation
 import AuthenticationServices
 import SafariServices
 
+extension NSNotification.Name {
+    static let CDVPluginOAuthCancelled = NSNotification.Name("CDVPluginOAuthCancelledNotification");
+}
+
 @objc protocol OAuthSessionProvider {
     init(_ endpoint : URL, callbackScheme : String)
     func start() -> Void
@@ -41,6 +45,8 @@ class ASWebAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
         self.aswas = ASWebAuthenticationSession(url: endpoint, callbackURLScheme: callbackURLScheme, completionHandler: { (callBack:URL?, error:Error?) in
             if let incomingUrl = callBack {
                 NotificationCenter.default.post(name: NSNotification.Name.CDVPluginHandleOpenURL, object: incomingUrl)
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name.CDVPluginOAuthCancelled, object: nil)
             }
         })
     }
@@ -68,6 +74,8 @@ class SFAuthenticationSessionOAuthSessionProvider : OAuthSessionProvider {
         self.sfas = SFAuthenticationSession(url: endpoint, callbackURLScheme: callbackScheme, completionHandler: { (callBack:URL?, error:Error?) in
             if let incomingUrl = callBack {
                 NotificationCenter.default.post(name: NSNotification.Name.CDVPluginHandleOpenURL, object: incomingUrl)
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name.CDVPluginOAuthCancelled, object: nil)
             }
         })
     }
@@ -90,6 +98,9 @@ class SFSafariViewControllerOAuthSessionProvider : OAuthSessionProvider {
 
     required init(_ endpoint : URL, callbackScheme : String) {
         self.sfvc = SFSafariViewController(url: endpoint)
+        if #available(iOS 11.0, *) {
+            self.sfvc.dismissButtonStyle = .cancel
+        }
     }
 
     func start() {
@@ -127,13 +138,15 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
     static var forcedVersion : UInt32 = UInt32.max
 
     var authSystem : OAuthSessionProvider?
+    var closeCallbackId : String?
     var callbackScheme : String?
     var logger : OSLog?
 
     override func pluginInitialize() {
         let urlScheme = self.commandDelegate.settings["oauthscheme"] as! String
+        let urlHostname = self.commandDelegate.settings["oauthhostname"] as? String ?? "oauth_callback";
 
-        self.callbackScheme = "\(urlScheme)://oauth_callback"
+        self.callbackScheme = "\(urlScheme)://\(urlHostname)"
         if #available(iOS 10.0, *) {
             self.logger = OSLog(subsystem: urlScheme, category: "Cordova")
         }
@@ -141,6 +154,11 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
         NotificationCenter.default.addObserver(self,
                 selector: #selector(OAuthPlugin._handleOpenURL(_:)),
                 name: NSNotification.Name.CDVPluginHandleOpenURL,
+                object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                selector: #selector(OAuthPlugin._handleCancel(_:)),
+                name: NSNotification.Name.CDVPluginOAuthCancelled,
                 object: nil)
     }
 
@@ -155,6 +173,8 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
             self.commandDelegate.send(CDVPluginResult(status: .error), callbackId: command.callbackId)
             return
         }
+
+        self.closeCallbackId = command.callbackId
 
         if OAuthPlugin.forcedVersion >= 12, #available(iOS 12.0, *) {
             self.authSystem = ASWebAuthenticationSessionOAuthSessionProvider(url, callbackScheme:self.callbackScheme!)
@@ -179,7 +199,6 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
 
         self.authSystem?.start()
 
-        self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: command.callbackId)
         return
     }
 
@@ -188,7 +207,7 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
         self.authSystem?.cancel()
         self.authSystem = nil
 
-        var jsobj : [String : String] = [:]
+        var jsobj : [String : String] = ["oauth_callback_url": url.absoluteString]
         let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
 
         queryItems?.forEach {
@@ -204,6 +223,10 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
         do {
             let data = try JSONSerialization.data(withJSONObject: jsobj)
             let msg = String(data: data, encoding: .utf8)!
+                .replacingOccurrences(of: "'", with: "\\'")
+                .replacingOccurrences(of: "\n", with: "\\n")
+                .replacingOccurrences(of: "\r", with: "\\r")
+                .replacingOccurrences(of: "\t", with: "\\t")
 
             self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::\(msg)' }));", completionHandler: nil)
         } catch {
@@ -227,13 +250,28 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
         }
 
         self.parseToken(from: url)
+
+        if let cb = self.closeCallbackId {
+            self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: cb)
+        }
+        self.closeCallbackId = nil
+    }
+
+
+    @objc internal func _handleCancel(_ notification : NSNotification) {
+        if let cb = self.closeCallbackId {
+            self.commandDelegate.send(CDVPluginResult(status: .ok), callbackId: cb)
+        }
+        self.closeCallbackId = nil
     }
 
 
     @available(iOS 9.0, *)
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-       self.authSystem?.cancel()
-       self.authSystem = nil
+        self.authSystem?.cancel()
+        self.authSystem = nil
+
+        NotificationCenter.default.post(name: NSNotification.Name.CDVPluginOAuthCancelled, object: nil)
     }
 
     @available(iOS 13.0, *)

@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 public class OAuthPlugin extends CordovaPlugin {
     private final String TAG = "OAuthPlugin";
+    private CallbackContext oauthCallback = null;
 
     /**
      * Executes the request.
@@ -55,10 +56,10 @@ public class OAuthPlugin extends CordovaPlugin {
         if ("startOAuth".equals(action)) {
             try {
                 String authEndpoint = args.getString(0);
+                oauthCallback = callbackContext;
 
                 this.startOAuth(authEndpoint);
 
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
                 return true;
             } catch (JSONException e) {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
@@ -85,12 +86,14 @@ public class OAuthPlugin extends CordovaPlugin {
         }
 
         final Uri uri = intent.getData();
+        String callbackHost = preferences.getString("oauthhostname", "oauth_callback");
 
-        if (uri.getHost().equals("oauth_callback")) {
+        if (uri.getHost().equals(callbackHost)) {
             LOG.i(TAG, "OAuth called back with parameters.");
 
             try {
                 JSONObject jsobj = new JSONObject();
+                jsobj.put("oauth_callback_url", uri.toString());
 
                 for (String queryKey : uri.getQueryParameterNames()) {
                     jsobj.put(queryKey, uri.getQueryParameter(queryKey));
@@ -101,6 +104,22 @@ public class OAuthPlugin extends CordovaPlugin {
                 LOG.e(TAG, "JSON Serialization failed");
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * Called when the activity will start interacting with the user.
+     *
+     * We use this method to indicate to the JavaScript side that the OAuth
+     * window has closed (regardless of login status).
+     */
+    @Override
+    public void onResume(boolean multitasking) {
+        super.onResume(multitasking);
+
+        if (oauthCallback != null) {
+            oauthCallback.sendPluginResult(new PluginResult(PluginResult.Status.OK));
+            oauthCallback = null;
         }
     }
 
@@ -118,7 +137,8 @@ public class OAuthPlugin extends CordovaPlugin {
 
     @SuppressWarnings("deprecation")
     private void dispatchOAuthMessage(final String msg) {
-        final String jsCode = "window.dispatchEvent(new MessageEvent('message', { data: 'oauth::" + msg + "' }));";
+        final String msgData = msg.replace("'", "\\'").replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t");
+        final String jsCode = "window.dispatchEvent(new MessageEvent('message', { data: 'oauth::" + msgData + "' }));";
 
         CordovaWebViewEngine engine = this.webView.getEngine();
         if (engine != null) {

@@ -31,6 +31,7 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.Until;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,6 +61,16 @@ public class OAuthPluginTest {
         device.wait(Until.hasObject(By.pkg(TEST_PACKAGE).depth(0)), TIMEOUT);
     }
 
+    @After
+    public void ensureLogout() {
+        UiObject2 logoutBtn = device.wait(Until.findObject(By.text("Logout")), TIMEOUT);
+        if (logoutBtn != null) {
+            logoutBtn.click();
+
+            device.waitForIdle();
+        }
+    }
+
     @Test
     public void testOAuthFlow() {
         assertNotNull(device);
@@ -79,6 +90,28 @@ public class OAuthPluginTest {
         device.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
 
         device.wait(Until.findObject(By.text("LOGGED IN")), TIMEOUT);
+    }
+
+    @Test
+    public void testOAuthCancellation() {
+        assertNotNull(device);
+
+        device.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
+
+        UiObject2 loginBtn = device.wait(Until.findObject(By.text("Sign in with OAuth")), TIMEOUT);
+        assertNotNull(loginBtn);
+        loginBtn.click();
+
+        // Now we have to close the Chrome Custom Tab without logging in
+        UiObject2 oauthBtn = device.wait(Until.findObject(By.text("Click Here to Login")), TIMEOUT);
+        assertNotNull(oauthBtn);
+
+        device.pressBack();
+
+        // Should be back in the app now
+        device.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
+
+        device.wait(Until.findObject(By.text("LOGIN CANCELLED!")), TIMEOUT);
     }
 
     /**

@@ -16,35 +16,35 @@
 
 
 import XCTest
+import WebKit
 @testable import Cordova
 @testable import OAuthPluginTest
 
 // MARK: Mock classes
 class MockCommandDelegate : NSObject, CDVCommandDelegate {
-    var settings: [AnyHashable : Any]! {
+    var settings: CDVSettingsDictionary {
         get {
             return ["oauthscheme": "oauthtest"]
         }
     }
 
-    var urlTransformer: UrlTransformerBlock!
     var lastResult: CDVPluginResult!
 
-    func path(forResource resourcepath: String!) -> String! {
+    func path(forResource resourcepath: String) -> String {
         return "";
     }
 
-    func getCommandInstance(_ pluginName: String!) -> Any! {
+    func getCommandInstance(_ pluginName: String) -> CDVPlugin? {
         return nil;
     }
 
-    func send(_ result: CDVPluginResult!, callbackId: String!) {
+    func send(_ result: CDVPluginResult, callbackId: String) {
         self.lastResult = result
     }
 
-    func evalJs(_ js: String!) { }
-    func evalJs(_ js: String!, scheduledOnRunLoop: Bool) { }
-    func run(inBackground block: (() -> Void)!) { }
+    func evalJs(_ js: String) { }
+    func evalJs(_ js: String, scheduledOnRunLoop: Bool) { }
+    func run(inBackground block: (() -> Void)) { }
 }
 
 class MockWebViewEngine : NSObject, CDVWebViewEngineProtocol {
@@ -130,7 +130,6 @@ class OAuthPluginTests: XCTestCase {
         let cmd = CDVInvokedUrlCommand(arguments:["https://example.com"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(cmd!)
 
-        XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.ok.rawValue)
         XCTAssertTrue(plugin.authSystem is SafariAppOAuthSessionProvider)
     }
 
@@ -145,7 +144,6 @@ class OAuthPluginTests: XCTestCase {
         let cmd = CDVInvokedUrlCommand(arguments:["https://example.com"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(cmd!)
 
-        XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.ok.rawValue)
         XCTAssertTrue(plugin.authSystem is SFSafariViewControllerOAuthSessionProvider)
     }
 
@@ -160,7 +158,6 @@ class OAuthPluginTests: XCTestCase {
         let cmd = CDVInvokedUrlCommand(arguments:["https://example.com"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(cmd!)
 
-        XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.ok.rawValue)
         XCTAssertTrue(plugin.authSystem is SFAuthenticationSessionOAuthSessionProvider)
     }
 
@@ -175,7 +172,6 @@ class OAuthPluginTests: XCTestCase {
         let cmd = CDVInvokedUrlCommand(arguments:["https://example.com"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(cmd!)
 
-        XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.ok.rawValue)
         XCTAssertTrue(plugin.authSystem is ASWebAuthenticationSessionOAuthSessionProvider)
     }
 }
