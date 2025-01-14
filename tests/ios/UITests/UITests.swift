@@ -63,6 +63,41 @@ class OAuthPluginUITests: XCTestCase {
         XCTAssert(loggedIn.exists)
     }
 
+    func testCancelledFlow() throws {
+        app.launch()
+        app.tap()
+
+        // Wait for the landing page to load
+        let landingPage = app.staticTexts["WELCOME!"]
+        _ = landingPage.waitForExistence(timeout: 5)
+
+        // Tap the button, Kronk!
+        let button = app.webViews.buttons["Sign in with OAuth"]
+        XCTAssert(button.exists)
+        XCTAssert(button.isHittable)
+        button.tap()
+
+        if #available(iOS 11.0, *) {
+            let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+            let continueBtn = springboard.buttons["Continue"]
+            if continueBtn.waitForExistence(timeout: 10) {
+                continueBtn.tap()
+            }
+        }
+
+        // Tap the cancel button
+        let oauthButton = app.buttons["Cancel"]
+        _ = oauthButton.waitForExistence(timeout: 25)
+        XCTAssert(oauthButton.exists)
+        XCTAssert(oauthButton.isHittable)
+        oauthButton.tap()
+
+        // Verify the app received the OAuth token and considers us logged in
+        let loggedIn = app.staticTexts["LOGIN CANCELLED!"]
+        _ = loggedIn.waitForExistence(timeout: 45)
+        XCTAssert(loggedIn.exists)
+    }
+
     private func runAuthenticationSessionFlow() {
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         let continueBtn = springboard.buttons["Continue"]

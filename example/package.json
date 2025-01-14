@@ -23,6 +23,7 @@
     "cordova-plugin-oauth": ">= 4.0.0"
   },
   "scripts": {
-    "build": "cordova prepare && cordova build --debug --emulator"
+    "build": "cordova prepare && cordova build --debug --emulator",
+    "postinstall": "node .postinstall.js"
   }
 }

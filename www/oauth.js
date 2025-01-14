@@ -21,7 +21,23 @@ var noop = function() { };
 
 module.exports = function(url, name, features) {
   if (name && name.match && name.match(/^oauth:/)) {
-    cordova.exec(noop, noop, 'OAuth', 'startOAuth', [url]);
+    var wnd = null;
+    if (window.EventTarget) {
+      wnd = new EventTarget();
+    }
+
+    function success() {
+      if (wnd) {
+        if (wnd.onclose) {
+          wnd.onclose();
+        }
+        wnd.dispatchEvent(new Event('close'));
+      }
+    }
+
+    cordova.exec(success, noop, 'OAuth', 'startOAuth', [url]);
+
+    return wnd;
   } else {
     var originalWindowOpen = modulemapper.getOriginalSymbol(window, 'open');
     return originalWindowOpen.apply(window, arguments);
