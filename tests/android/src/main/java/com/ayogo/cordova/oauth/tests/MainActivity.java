@@ -14,23 +14,15 @@
  * limitations under the License.
  */
 
-import UIKit
-import Cordova
+package com.ayogo.cordova.oauth.tests;
 
-@UIApplicationMain
-class AppDelegate: CDVAppDelegate {
-    var _window : UIWindow?;
+import android.os.Bundle;
+import org.apache.cordova.CordovaActivity;
 
-    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        let bounds = UIScreen.main.bounds;
-
-        let window = UIWindow(frame: bounds);
-        window.autoresizesSubviews = true;
-        window.rootViewController = CDVViewController();
-        window.makeKeyAndVisible();
-
-        self._window = window;
-
-        return true;
+public class MainActivity extends CordovaActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loadUrl(launchUrl);
     }
 }

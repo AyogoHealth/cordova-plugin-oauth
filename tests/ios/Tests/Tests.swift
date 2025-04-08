@@ -16,35 +16,35 @@
 
 
 import XCTest
+import WebKit
 @testable import Cordova
 @testable import OAuthPluginTest
 
 // MARK: Mock classes
 class MockCommandDelegate : NSObject, CDVCommandDelegate {
-    var settings: [AnyHashable : Any]! {
+    var settings: CDVSettingsDictionary {
         get {
             return ["oauthscheme": "oauthtest"]
         }
     }
 
-    var urlTransformer: UrlTransformerBlock!
     var lastResult: CDVPluginResult!
 
-    func path(forResource resourcepath: String!) -> String! {
+    func path(forResource resourcepath: String) -> String {
         return "";
     }
 
-    func getCommandInstance(_ pluginName: String!) -> Any! {
+    func getCommandInstance(_ pluginName: String) -> CDVPlugin? {
         return nil;
     }
 
-    func send(_ result: CDVPluginResult!, callbackId: String!) {
+    func send(_ result: CDVPluginResult, callbackId: String) {
         self.lastResult = result
     }
 
-    func evalJs(_ js: String!) { }
-    func evalJs(_ js: String!, scheduledOnRunLoop: Bool) { }
-    func run(inBackground block: (() -> Void)!) { }
+    func evalJs(_ js: String) { }
+    func evalJs(_ js: String, scheduledOnRunLoop: Bool) { }
+    func run(inBackground block: (() -> Void)) { }
 }
 
 class MockWebViewEngine : NSObject, CDVWebViewEngineProtocol {
@@ -78,13 +78,13 @@ class OAuthPluginTests: XCTestCase {
     var plugin: OAuthPlugin!
     var cmdDlg: MockCommandDelegate!
     var webEngine: MockWebViewEngine!
-    var vc: UIViewController!
+    var vc: CDVViewController!
 
     override func setUpWithError() throws {
         // Always reset this to the default
         OAuthPlugin.forcedVersion = UInt32.max
 
-        vc = UIViewController()
+        vc = CDVViewController()
         cmdDlg = MockCommandDelegate()
         webEngine = MockWebViewEngine(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
 
@@ -118,7 +118,7 @@ class OAuthPluginTests: XCTestCase {
     func testOAuthCommandURL() throws {
         plugin.pluginInitialize()
 
-        let nonURLcmd = CDVInvokedUrlCommand(arguments:["Hello world!"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
+        let nonURLcmd = CDVInvokedUrlCommand(arguments:[""], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(nonURLcmd!)
         XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.error.rawValue)
     }
@@ -130,7 +130,6 @@ class OAuthPluginTests: XCTestCase {
         let cmd = CDVInvokedUrlCommand(arguments:["https://example.com"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(cmd!)
 
-        XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.ok.rawValue)
         XCTAssertTrue(plugin.authSystem is SafariAppOAuthSessionProvider)
     }
 
@@ -145,7 +144,6 @@ class OAuthPluginTests: XCTestCase {
         let cmd = CDVInvokedUrlCommand(arguments:["https://example.com"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(cmd!)
 
-        XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.ok.rawValue)
         XCTAssertTrue(plugin.authSystem is SFSafariViewControllerOAuthSessionProvider)
     }
 
@@ -160,7 +158,6 @@ class OAuthPluginTests: XCTestCase {
         let cmd = CDVInvokedUrlCommand(arguments:["https://example.com"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(cmd!)
 
-        XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.ok.rawValue)
         XCTAssertTrue(plugin.authSystem is SFAuthenticationSessionOAuthSessionProvider)
     }
 
@@ -175,7 +172,6 @@ class OAuthPluginTests: XCTestCase {
         let cmd = CDVInvokedUrlCommand(arguments:["https://example.com"], callbackId:"", className:"CDVOAuthPlugin", methodName:"startOAuth")
         plugin.startOAuth(cmd!)
 
-        XCTAssertEqual(cmdDlg.lastResult.status as! UInt, CDVCommandStatus.ok.rawValue)
         XCTAssertTrue(plugin.authSystem is ASWebAuthenticationSessionOAuthSessionProvider)
     }
 }

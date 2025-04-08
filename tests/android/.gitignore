@@ -1,0 +1,5 @@
+build/
+.gradle/
+src/main/java/com/ayogo/cordova/oauth/OAuthPlugin.java
+src/main/assets/
+src/main/res/
