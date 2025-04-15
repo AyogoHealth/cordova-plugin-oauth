@@ -10,7 +10,7 @@
 		905131BD27F1631300AC00FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905131BC27F1631300AC00FC /* AppDelegate.swift */; };
 		905131D427F1631600AC00FC /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905131D327F1631600AC00FC /* Tests.swift */; };
 		905131DE27F1631600AC00FC /* UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905131DD27F1631600AC00FC /* UITests.swift */; };
-		905131EE27F1648A00AC00FC /* CordovaLib in Frameworks */ = {isa = PBXBuildFile; productRef = 905131ED27F1648A00AC00FC /* CordovaLib */; };
+		905131EE27F1648A00AC00FC /* Cordova in Frameworks */ = {isa = PBXBuildFile; productRef = 905131ED27F1648A00AC00FC /* Cordova */; };
 		905131F127F1670900AC00FC /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 905131F027F1670900AC00FC /* config.xml */; };
 		905131F827F168FC00AC00FC /* OAuthPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905131F727F168FC00AC00FC /* OAuthPlugin.swift */; };
 		907328F328D04C0C006F6BFA /* www in Resources */ = {isa = PBXBuildFile; fileRef = 907328F228D04C0C006F6BFA /* www */; };
@@ -52,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				905131EE27F1648A00AC00FC /* CordovaLib in Frameworks */,
+				905131EE27F1648A00AC00FC /* Cordova in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +147,7 @@
 			);
 			name = OAuthPluginTest;
 			packageProductDependencies = (
-				905131ED27F1648A00AC00FC /* CordovaLib */,
+				905131ED27F1648A00AC00FC /* Cordova */,
 			);
 			productName = Tests;
 			productReference = 905131B927F1631300AC00FC /* OAuthPluginTest.app */;
@@ -590,10 +590,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		905131ED27F1648A00AC00FC /* CordovaLib */ = {
+		905131ED27F1648A00AC00FC /* Cordova */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 905131EC27F1648A00AC00FC /* XCRemoteSwiftPackageReference "cordova-ios" */;
-			productName = CordovaLib;
+			productName = Cordova;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
