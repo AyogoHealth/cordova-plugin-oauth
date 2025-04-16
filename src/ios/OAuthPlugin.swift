@@ -209,9 +209,23 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
 
         var jsobj : [String : String] = ["oauth_callback_url": url.absoluteString]
         let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+        let fragment = url.fragment
+
+        // Parse fragment parameters
+        if let fragment = fragment {
+            let pairs = fragment.split(separator: "&")
+            for pair in pairs {
+                let keyValue = pair.split(separator: "=")
+                if keyValue.count == 2,
+                   let key = keyValue[0].removingPercentEncoding,
+                   let value = keyValue[1].removingPercentEncoding {
+                   jsobj[String(key)] = String(value)
+                }
+            }
+        }
 
         queryItems?.forEach {
-            jsobj[$0.name] = $0.value
+           jsobj[$0.name] = $0.value
         }
 
         if #available(iOS 10.0, *) {
@@ -228,7 +242,9 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
                 .replacingOccurrences(of: "\r", with: "\\r")
                 .replacingOccurrences(of: "\t", with: "\\t")
 
-            self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::\(msg)' }));", completionHandler: nil)
+            if let msg = String(data: data, encoding: .utf8) {
+                self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::\(msg)' }));", completionHandler: nil)
+            }
         } catch {
             let errStr = "JSON Serialization failed: \(error)"
             if #available(iOS 10.0, *) {
