@@ -11,9 +11,9 @@ on:
 jobs:
   test-ios:
     name: "iOS Tests"
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.3.app/Contents/Developer
 
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
             -project OAuthPluginTests.xcodeproj \
             -scheme OAuthPluginTests \
             -testPlan UnitTests \
-            -destination "platform=iOS Simulator,name=iPhone 15"
+            -destination "platform=iOS Simulator,name=iPhone 16"
         working-directory: ./tests/ios
 
       - name: Run iOS UI Tests
@@ -44,7 +44,7 @@ jobs:
             -project OAuthPluginTests.xcodeproj \
             -scheme OAuthPluginTests \
             -testPlan DeviceTests \
-            -destination "platform=iOS Simulator,name=iPhone 15" \
+            -destination "platform=iOS Simulator,name=iPhone 16" \
             -destination-timeout 300
         working-directory: ./tests/ios
 
@@ -82,7 +82,7 @@ jobs:
       - name: Set up gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          gradle-version: 8.4
+          gradle-version: 8.13
 
       - name: Run Android Unit Tests
         run: |
