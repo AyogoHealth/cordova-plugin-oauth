@@ -89,7 +89,8 @@ public class OAuthPluginTest {
         // Should be back in the app now
         device.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
 
-        device.wait(Until.findObject(By.text("LOGGED IN")), TIMEOUT);
+        UiObject2 loginText = device.wait(Until.findObject(By.text("LOGGED IN")), TIMEOUT);
+        assertNotNull(loginText);
     }
 
     @Test
@@ -111,7 +112,8 @@ public class OAuthPluginTest {
         // Should be back in the app now
         device.wait(Until.findObject(By.clazz(WebView.class)), TIMEOUT);
 
-        device.wait(Until.findObject(By.text("LOGIN CANCELLED!")), TIMEOUT);
+        UiObject2 cancelText = device.wait(Until.findObject(By.text("LOGIN CANCELLED!")), TIMEOUT);
+        assertNotNull(cancelText);
     }
 
     /**
