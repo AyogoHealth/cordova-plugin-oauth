@@ -98,7 +98,7 @@ public class OAuthPlugin extends CordovaPlugin {
 
             try {
                 JSONObject jsobj = new JSONObject();
-				jsobj.put("oauth_callback_url", uri.toString());
+                jsobj.put("oauth_callback_url", uri.toString());
 
                 // Parse fragment parameters
                 if (uri.getFragment() != null) {

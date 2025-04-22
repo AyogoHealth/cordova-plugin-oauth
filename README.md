@@ -69,13 +69,22 @@ Usage
     window.open(endpoint, 'oauth:google', '');
     ```
 
+    Alternatively, you can include `oauth=yes` in the window features string:
+
+    ```javascript
+    var endpoint = 'https://accounts.google.com/o/oauth2/v2/auth?....';
+    window.open(endpoint, '_self', 'oauth=yes');
+    ```
+
 2.  The plugin will open the OAuth login page in a new browser window.
 
 3.  When the OAuth process is complete and it redirects to your app scheme, the
     plugin will send a message to the Cordova app.
 
     The message begins with `oauth::` and is followed by a JSON object
-    containing all of the key/value pairs from the OAuth redirect query string.
+    containing all of the key/value pairs from the OAuth redirect query string
+    or fragment parameters. The complete OAuth callback URL is available in a
+    `oauth_callback_url` property.
 
     ```javascript
     // Called from a callback URL like

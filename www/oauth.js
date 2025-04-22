@@ -104,7 +104,10 @@ var EventTargetPolyfill = (function(Object, wm) {
 
 
 module.exports = function(url, name, features) {
-  if (name && name.match && name.match(/^oauth:/)) {
+  var nameMatch = name && name.match && name.match(/^oauth:/);
+  var featureMatch = features && features.match && features.match(/^(?:.+,)?(oauth)(?:[=,].*)?$/i);
+
+  if (nameMatch || featureMatch) {
     var wnd = null;
     if (window.EventTarget) {
       wnd = new EventTarget();
