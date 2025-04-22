@@ -113,4 +113,9 @@ Licence
 Released under the Apache 2.0 Licence.  
 Copyright © 2020-2022 Ayogo Health Inc.
 
+This project includes the [EventTarget polyfill][etpoly], copyright © 2018,
+Andrea Giammarchi under the [ISC Licence][isc].
+
 [coc]: https://github.com/AyogoHealth/cordova-plugin-oauth/blob/main/CODE_OF_CONDUCT.md
+[etpoly]: https://github.com/ungap/event-target
+[isc]: https://github.com/ungap/event-target/blob/master/LICENSE
