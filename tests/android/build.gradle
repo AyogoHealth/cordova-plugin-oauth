@@ -28,21 +28,26 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 35
+    compileSdkVersion = 35
 
     defaultConfig {
-      namespace 'com.ayogo.cordova.oauth.tests'
-      applicationId 'com.ayogo.cordova.oauth.tests'
-      minSdkVersion 24
-      targetSdkVersion 35
-      versionCode 1
-      versionName '1.0'
-      testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+      namespace = 'com.ayogo.cordova.oauth.tests'
+      applicationId = 'com.ayogo.cordova.oauth.tests'
+      minSdkVersion = 24
+      targetSdkVersion = 35
+      versionCode = 1
+      versionName = '1.0'
+      testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaLanguageVersion.of(11)
+        targetCompatibility JavaLanguageVersion.of(11)
     }
 
     buildTypes {
       debug {
-        testCoverageEnabled true
+        testCoverageEnabled = true
       }
     }
 }
