@@ -41,6 +41,8 @@ import org.json.JSONObject;
 public class OAuthPlugin extends CordovaPlugin {
     private final String TAG = "OAuthPlugin";
     private CallbackContext oauthCallback = null;
+    private boolean didFinishLoading = false;
+    private String lastOAuthResult = null;
 
     /**
      * Executes the request.
@@ -76,6 +78,14 @@ public class OAuthPlugin extends CordovaPlugin {
         return false;
     }
 
+
+    /**
+     * Called when the activity is becoming visible to the user.
+     */
+    @Override
+    public void onStart() {
+        onNewIntent(cordova.getActivity().getIntent());
+    }
 
 
     /**
@@ -120,7 +130,11 @@ public class OAuthPlugin extends CordovaPlugin {
                     jsobj.put(queryKey, uri.getQueryParameter(queryKey));
                 }
 
-                dispatchOAuthMessage(jsobj.toString());
+                if (this.didFinishLoading) {
+                    dispatchOAuthMessage(jsobj.toString());
+                } else {
+                    this.lastOAuthResult = jsobj.toString();
+                }
             } catch (JSONException e) {
                 LOG.e(TAG, "JSON Serialization failed");
                 e.printStackTrace();
@@ -142,6 +156,27 @@ public class OAuthPlugin extends CordovaPlugin {
             oauthCallback.sendPluginResult(new PluginResult(PluginResult.Status.OK));
             oauthCallback = null;
         }
+    }
+
+
+    /**
+     * Called when a message is sent to plugin.
+     *
+     * @param id            The message id
+     * @param data          The message data
+     * @return              Object to stop propagation or null
+     */
+    @Override
+    public Object onMessage(String id, Object data) {
+        if (id.equals("onPageFinished")) {
+            this.didFinishLoading = true;
+
+            if (this.lastOAuthResult != null) {
+                this.dispatchOAuthMessage(this.lastOAuthResult);
+                this.lastOAuthResult = null;
+            }
+        }
+        return null;
     }
 
 
