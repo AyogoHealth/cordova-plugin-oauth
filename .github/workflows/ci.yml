@@ -89,9 +89,18 @@ jobs:
           gradle test
         working-directory: ./tests/android
 
-      - name: Run Android UI Tests
+      - name: Run Android UI Tests (29)
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
           script: gradle connectedCheck
+          working-directory: ./tests/android
+
+      - name: Run Android UI Tests (34)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          script: adb shell settings put global development_settings_enabled 1 && gradle connectedCheck
           working-directory: ./tests/android

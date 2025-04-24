@@ -82,6 +82,13 @@ public class OAuthPluginTest {
         loginBtn.click();
 
         // Now we have to interact with the Chrome Custom Tab
+        // First see if we need to skip the account nag screen
+        UiObject2 skipBtn = device.wait(Until.findObject(By.text("Use without an account")), TIMEOUT);
+        if (skipBtn != null) {
+            skipBtn.click();
+        }
+
+        // Now we have to click the login button in the Chrome Custom Tab
         UiObject2 oauthBtn = device.wait(Until.findObject(By.text("Click Here to Login")), TIMEOUT);
         assertNotNull(oauthBtn);
         oauthBtn.click();
@@ -102,6 +109,13 @@ public class OAuthPluginTest {
         UiObject2 loginBtn = device.wait(Until.findObject(By.text("Sign in with OAuth")), TIMEOUT);
         assertNotNull(loginBtn);
         loginBtn.click();
+
+        // Now we have to interact with the Chrome Custom Tab
+        // First see if we need to skip the account nag screen
+        UiObject2 skipBtn = device.wait(Until.findObject(By.text("Use without an account")), TIMEOUT);
+        if (skipBtn != null) {
+            skipBtn.click();
+        }
 
         // Now we have to close the Chrome Custom Tab without logging in
         UiObject2 oauthBtn = device.wait(Until.findObject(By.text("Click Here to Login")), TIMEOUT);
