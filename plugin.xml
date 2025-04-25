@@ -66,6 +66,7 @@ limitations under the License.
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="OAuth">
         <param name="android-package" value="com.ayogo.cordova.oauth.OAuthPlugin" />
+        <param name="onload" value="true" />
       </feature>
     </config-file>
 

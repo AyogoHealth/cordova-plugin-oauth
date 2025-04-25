@@ -27,7 +27,7 @@ document.querySelectorAll('.login').forEach((btn) => {
     const url = 'https://ayogohealth.github.io/cordova-plugin-oauth/example/oauth_access_token.html';
 
     // Open a window with the "oauth:" prefix to trigger the plugin
-    const hwnd = window.open(url, 'oauth:testpage');
+    const hwnd = window.open(url, '_blank', 'oauth=yes');
 
     hwnd.addEventListener('close', (evt) => {
       if (!localStorage.getItem('access_token')) {

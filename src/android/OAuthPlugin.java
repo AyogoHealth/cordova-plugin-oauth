@@ -41,6 +41,8 @@ import org.json.JSONObject;
 public class OAuthPlugin extends CordovaPlugin {
     private final String TAG = "OAuthPlugin";
     private CallbackContext oauthCallback = null;
+    private boolean didFinishLoading = false;
+    private String lastOAuthResult = null;
 
     /**
      * Executes the request.
@@ -77,6 +79,14 @@ public class OAuthPlugin extends CordovaPlugin {
     }
 
 
+    /**
+     * Called when the activity is becoming visible to the user.
+     */
+    @Override
+    public void onStart() {
+        onNewIntent(cordova.getActivity().getIntent());
+    }
+
 
     /**
      * Called when the activity receives a new intent.
@@ -98,7 +108,7 @@ public class OAuthPlugin extends CordovaPlugin {
 
             try {
                 JSONObject jsobj = new JSONObject();
-				jsobj.put("oauth_callback_url", uri.toString());
+                jsobj.put("oauth_callback_url", uri.toString());
 
                 // Parse fragment parameters
                 if (uri.getFragment() != null) {
@@ -120,7 +130,11 @@ public class OAuthPlugin extends CordovaPlugin {
                     jsobj.put(queryKey, uri.getQueryParameter(queryKey));
                 }
 
-                dispatchOAuthMessage(jsobj.toString());
+                if (this.didFinishLoading) {
+                    dispatchOAuthMessage(jsobj.toString());
+                } else {
+                    this.lastOAuthResult = jsobj.toString();
+                }
             } catch (JSONException e) {
                 LOG.e(TAG, "JSON Serialization failed");
                 e.printStackTrace();
@@ -146,13 +160,45 @@ public class OAuthPlugin extends CordovaPlugin {
 
 
     /**
+     * Called when a message is sent to plugin.
+     *
+     * @param id            The message id
+     * @param data          The message data
+     * @return              Object to stop propagation or null
+     */
+    @Override
+    public Object onMessage(String id, Object data) {
+        if (id.equals("onPageFinished")) {
+            this.didFinishLoading = true;
+
+            if (this.lastOAuthResult != null) {
+                this.dispatchOAuthMessage(this.lastOAuthResult);
+                this.lastOAuthResult = null;
+            }
+        }
+        return null;
+    }
+
+
+    /**
      * Launches the custom tab with the OAuth endpoint URL.
      *
      * @param url The URL of the OAuth endpoint.
      */
     private void startOAuth(String url) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+
         CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        customTabsIntent.intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true);
+        customTabsIntent.intent.putExtra("android.support.customtabs.extra.EXTRA_ENABLE_INSTANT_APPS", false);
+        customTabsIntent.intent.putExtra("android.support.customtabs.extra.SEND_TO_EXTERNAL_HANDLER", false);
+        customTabsIntent.intent.putExtra("androidx.browser.customtabs.extra.SHARE_STATE", 2);
+        customTabsIntent.intent.putExtra("androidx.browser.customtabs.extra.DISABLE_BACKGROUND_INTERACTION", false);
+        customTabsIntent.intent.putExtra("org.chromium.chrome.browser.customtabs.EXTRA_DISABLE_DOWNLOAD_BUTTON", true);
+        customTabsIntent.intent.putExtra("org.chromium.chrome.browser.customtabs.EXTRA_DISABLE_STAR_BUTTON", true);
+
         customTabsIntent.launchUrl(this.cordova.getActivity(), Uri.parse(url));
     }
 
