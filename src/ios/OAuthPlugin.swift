@@ -228,22 +228,16 @@ class OAuthPlugin : CDVPlugin, SFSafariViewControllerDelegate, ASWebAuthenticati
            jsobj[$0.name] = $0.value
         }
 
-        if #available(iOS 10.0, *) {
-            os_log("OAuth called back with parameters.", log: self.logger!, type: .info)
-        } else {
-            NSLog("OAuth called back with parameters.")
-        }
-
         do {
             let data = try JSONSerialization.data(withJSONObject: jsobj)
-            let msg = String(data: data, encoding: .utf8)!
-                .replacingOccurrences(of: "'", with: "\\'")
-                .replacingOccurrences(of: "\n", with: "\\n")
-                .replacingOccurrences(of: "\r", with: "\\r")
-                .replacingOccurrences(of: "\t", with: "\\t")
 
             if let msg = String(data: data, encoding: .utf8) {
-                self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::\(msg)' }));", completionHandler: nil)
+                let jsMsg = msg.replacingOccurrences(of: "'", with: "\\'")
+                               .replacingOccurrences(of: "\n", with: "\\n")
+                               .replacingOccurrences(of: "\r", with: "\\r")
+                               .replacingOccurrences(of: "\t", with: "\\t")
+
+                self.webViewEngine.evaluateJavaScript("window.dispatchEvent(new MessageEvent('message', { data: 'oauth::\(jsMsg)' }));", completionHandler: nil)
             }
         } catch {
             let errStr = "JSON Serialization failed: \(error)"
