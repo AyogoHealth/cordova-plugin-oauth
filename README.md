@@ -38,17 +38,20 @@ Installation
 ------------
 
 ```
-cordova plugin add cordova-plugin-oauth [--variable URL_SCHEME=mycoolapp]
+cordova plugin add cordova-plugin-oauth [--variable URL_SCHEME=mycoolapp] [--variable URL_HOSTNAME=callback]
 ```
 
 By default, the plugin registers the app ID as a scheme to be used as the
-OAuth callback URL, and expects a host of `oauth_callback` (i.e., if your
+OAuth callback URL, and expects a default host of `oauth_callback` (i.e., if your
 app's ID is `com.example.foo`, your OAuth redirect URL should be
 `com.example.foo://oauth_callback`).
 
 The scheme for the OAuth callback URL can be changed by providing a
 `URL_SCHEME` variable when installing. If your `URL_SCHEME` is `mycoolapp`,
 then your OAuth redirect URL should be `mycoolapp://oauth_callback`.
+
+The hostname endpoint can be changed by providing a `URL_HOSTNAME` variable
+when installing.
 
 
 Supported Platforms
