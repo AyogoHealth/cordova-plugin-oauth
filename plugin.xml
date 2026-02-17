@@ -23,6 +23,7 @@ limitations under the License.
   <issues>https://github.com/AyogoHealth/cordova-plugin-oauth/issues</issues>
 
   <preference name="URL_SCHEME" default="$PACKAGE_NAME" />
+  <preference name="URL_HOSTNAME" default="oauth_callback" />
 
   <engines>
     <engine name="cordova-ios" version=">= 6.1.0" />
@@ -35,6 +36,7 @@ limitations under the License.
 
   <config-file target="config.xml" parent="/*">
     <preference name="OAuthScheme" value="$URL_SCHEME"/>
+    <preference name="OAuthHostname" value="$URL_HOSTNAME"/>
   </config-file>
 
   <platform name="ios">
@@ -77,7 +79,7 @@ limitations under the License.
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
 
-        <data android:scheme="$URL_SCHEME" android:host="oauth_callback" />
+        <data android:scheme="$URL_SCHEME" android:host="$URL_HOSTNAME" />
       </intent-filter>
     </config-file>
 
