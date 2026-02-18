@@ -12,6 +12,8 @@ jobs:
   test-ios:
     name: "iOS Tests"
     runs-on: macos-26
+    permissions:
+      contents: read
 
     steps:
       - uses: actions/checkout@v6
@@ -50,6 +52,8 @@ jobs:
   test-android:
     name: "Android Tests"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Enable KVM group perms

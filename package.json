@@ -9,10 +9,7 @@
   ],
   "description": "Cordova plugin for performing OAuth login flows.",
   "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AyogoHealth/cordova-plugin-oauth.git"
-  },
+  "repository": "github:AyogoHealth/cordova-plugin-oauth.git",
   "keywords": [
     "cordova",
     "ecosystem:cordova",
@@ -24,21 +21,44 @@
     "www",
     "plugin.xml"
   ],
+  "scripts": {
+    "version": "sed -i -e \"s/\\(<plugin [^>]*id=\\\"$npm_package_name\\\" [^>]*version=\\\"\\)[^\\\"]*\\\"/\\1$npm_package_version\\\"/\" plugin.xml && git add plugin.xml"
+  },
   "cordova": {
+    "id": "cordova-plugin-oauth",
     "platforms": [
       "ios",
       "android"
     ]
   },
-  "engines": [
-    {
-      "name": "cordova-android",
-      "version": ">= 9.0.0"
-    },
-    {
-      "name": "cordova-ios",
-      "version": ">= 6.1.0"
+  "engines": {
+    "cordovaDependencies": {
+      "1.0.0": {
+        "cordova-android": ">= 8.0.0",
+        "cordova-ios": ">= 5.0.0"
+      },
+      "2.0.0": {
+        "cordova-android": ">= 8.0.0",
+        "cordova-ios": ">= 5.0.0"
+      },
+      "3.0.0": {
+        "cordova-android": ">= 8.0.0",
+        "cordova-ios": ">= 6.1.0"
+      },
+      "4.0.0": {
+        "cordova-android": ">= 9.0.0",
+        "cordova-ios": ">= 6.1.0"
+      },
+      "5.0.0": {
+        "cordova": ">100"
+      }
     }
-  ],
-  "dependencies": {}
+  },
+  "dependencies": {},
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "onFail": "ignore"
+    }
+  }
 }
