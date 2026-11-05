@@ -96,14 +96,14 @@ public class OAuthPlugin extends CordovaPlugin {
      */
     @Override
     public void onNewIntent(Intent intent) {
-        if (intent == null || !intent.getAction().equals(Intent.ACTION_VIEW)) {
+        if (intent == null || !Intent.ACTION_VIEW.equals(intent.getAction())) {
             return;
         }
 
         final Uri uri = intent.getData();
         String callbackHost = preferences.getString("oauthhostname", "oauth_callback");
 
-        if (uri.getHost().equals(callbackHost)) {
+        if (uri != null && callbackHost.equals(uri.getHost())) {
             LOG.i(TAG, "OAuth called back with parameters.");
 
             try {
