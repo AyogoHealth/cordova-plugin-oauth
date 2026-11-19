@@ -18,10 +18,16 @@ package com.ayogo.cordova.oauth;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import android.content.Intent;
+import android.net.Uri;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
+import org.apache.cordova.CordovaPreferences;
 import org.apache.cordova.PluginResult;
 import org.json.JSONException;
 import org.junit.Test;
@@ -55,5 +61,45 @@ public class OAuthPluginUnitTest {
         ArgumentCaptor<PluginResult> result = ArgumentCaptor.forClass(PluginResult.class);
         verify(context).sendPluginResult(result.capture());
         assertEquals(PluginResult.Status.ERROR.ordinal(), result.getValue().getStatus());
+    }
+
+    private OAuthPlugin initializedPlugin() {
+        OAuthPlugin plugin = new OAuthPlugin();
+        plugin.privateInitialize("OAuth", null, null, new CordovaPreferences());
+        return plugin;
+    }
+
+    @Test
+    public void onNewIntentWithoutAction() {
+        OAuthPlugin plugin = initializedPlugin();
+
+        // e.g. the activity started by component name only (`adb shell am start -n`)
+        Intent intent = mock(Intent.class);
+        plugin.onNewIntent(intent);
+
+        verify(intent, never()).getData();
+    }
+
+    @Test
+    public void onNewIntentViewWithoutData() {
+        OAuthPlugin plugin = initializedPlugin();
+
+        Intent intent = mock(Intent.class);
+        when(intent.getAction()).thenReturn(Intent.ACTION_VIEW);
+        plugin.onNewIntent(intent);
+    }
+
+    @Test
+    public void onNewIntentViewWithoutHost() {
+        OAuthPlugin plugin = initializedPlugin();
+
+        // e.g. an opaque URI such as `myscheme:path`
+        Uri uri = mock(Uri.class);
+        Intent intent = mock(Intent.class);
+        when(intent.getAction()).thenReturn(Intent.ACTION_VIEW);
+        when(intent.getData()).thenReturn(uri);
+        plugin.onNewIntent(intent);
+
+        verify(uri, never()).getQueryParameterNames();
     }
 }
