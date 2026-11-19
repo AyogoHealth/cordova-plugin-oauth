@@ -35,7 +35,7 @@ jobs:
             -project OAuthPluginTests.xcodeproj \
             -scheme OAuthPluginTests \
             -testPlan UnitTests \
-            -destination "platform=iOS Simulator,name=iPhone 16e"
+            -destination "platform=iOS Simulator,name=iPhone 17e"
         working-directory: ./tests/ios
 
       - name: Run iOS UI Tests
@@ -44,7 +44,7 @@ jobs:
             -project OAuthPluginTests.xcodeproj \
             -scheme OAuthPluginTests \
             -testPlan DeviceTests \
-            -destination "platform=iOS Simulator,name=iPhone 16e" \
+            -destination "platform=iOS Simulator,name=iPhone 17e" \
             -destination-timeout 300
         working-directory: ./tests/ios
 
